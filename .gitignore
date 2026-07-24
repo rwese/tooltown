@@ -11,6 +11,7 @@ coverage.*
 .env
 .env.*
 !.env.dist
+!.env.otel.bluebox-template
 
 # Editors and operating systems
 .DS_Store

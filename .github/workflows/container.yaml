@@ -52,3 +52,6 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/${{ github.repository }}:latest
+          build-args: |
+            VCS_REPOSITORY_URL=${{ github.server_url }}/${{ github.repository }}
+            VCS_REVISION=${{ github.sha }}

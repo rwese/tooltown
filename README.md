@@ -29,6 +29,20 @@ TOOLTOWN_PORT=8081 docker compose up --build
 
 Stop it with `docker compose down`.
 
+## OpenTelemetry and Bluebox
+
+The Go service exports request traces, trace-linked application logs, HTTP/runtime metrics, and W3C trace context over OTLP/HTTP. Existing standard-log output and timestamps are unchanged. Telemetry stays disabled when `OTEL_EXPORTER_OTLP_ENDPOINT` is empty.
+
+For local Compose, copy `.env.dist` to `.env`, then:
+
+1. Copy `OTEL_EXPORTER_OTLP_ENDPOINT` from `.env.otel.bluebox-template`.
+2. Open Bluebox **Setup**, use **Reveal token**, and set the exact displayed value in `OTEL_EXPORTER_OTLP_HEADERS`. Keep the dotenv value quoted because it contains a space; never commit it.
+3. Set `OTEL_RESOURCE_ATTRIBUTES=service.namespace=rwese,deployment.environment=development`.
+
+Production uses the same variables in `/var/lib/apps/tooltown/.env`, with `deployment.environment=production`. Metrics must keep `OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE=delta`; Bluebox rejects cumulative metrics.
+
+Published images include `vcs.repository.url.full` and `vcs.ref.head.revision` from CI build metadata so Bluebox can map telemetry to its source revision. Direct `go run .` and local images omit those attributes unless build metadata is supplied.
+
 ## Build the image
 
 ```sh
@@ -56,7 +70,7 @@ After a successful `main` build, GitHub Actions deploys on the runner labeled `a
 
 Traefik discovers the service through Docker labels; the container publishes no host port. Configure the image, hostname, container port, restart policy, Traefik router/service settings, management label, and Watchtower opt-in in the deployment `.env`. All supported variables and defaults are documented in `.env.dist`. Use distinct `COMPOSE_PROJECT_NAME`, `TOOLTOWN_TRAEFIK_ROUTER`, `TOOLTOWN_TRAEFIK_SERVICE`, and `TOOLTOWN_HOST` values for separate deployments on the same host.
 
-The deployment runner requires Docker Compose and write access to `/var/lib/apps`. Subsequent deployments preserve its local `.env`.
+The deployment runner requires Docker Compose and write access to `/var/lib/apps`. Subsequent deployments preserve its local `.env`; populate the OpenTelemetry endpoint there before deployment. Each deployment updates `OTEL_EXPORTER_OTLP_HEADERS` from the environment secret of the same name.
 
 ## Test
 

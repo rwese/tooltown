@@ -8,9 +8,14 @@ RUN --mount=type=cache,target=/go/pkg/mod \
     go mod download
 
 COPY *.go ./
+ARG VCS_REPOSITORY_URL
+ARG VCS_REVISION
 RUN --mount=type=cache,target=/go/pkg/mod \
     --mount=type=cache,target=/root/.cache/go-build \
-    CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags="-s -w" -o /tooltown .
+    LDFLAGS="-s -w"; \
+    if [ -n "$VCS_REPOSITORY_URL" ]; then LDFLAGS="$LDFLAGS -X main.vcsRepositoryURL=$VCS_REPOSITORY_URL"; fi; \
+    if [ -n "$VCS_REVISION" ]; then LDFLAGS="$LDFLAGS -X main.vcsRevision=$VCS_REVISION"; fi; \
+    CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags="$LDFLAGS" -o /tooltown .
 
 FROM scratch AS runtime
 WORKDIR /app

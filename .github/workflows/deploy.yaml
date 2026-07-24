@@ -21,6 +21,7 @@ jobs:
       github.event.workflow_run.conclusion == 'success' &&
       github.event.workflow_run.head_branch == 'main'
     runs-on: apps-deploy
+    environment: tooldown.void.cold.at
     env:
       DEPLOY_DIR: /var/lib/apps/tooltown
     steps:
@@ -41,12 +42,35 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install deployment configuration
+        env:
+          OTEL_EXPORTER_OTLP_HEADERS: ${{ secrets.OTEL_EXPORTER_OTLP_HEADERS }}
         run: |
           install -d -m 0755 "$DEPLOY_DIR"
           install -m 0644 compose.deploy.yaml "$DEPLOY_DIR/compose.yaml"
           if [ ! -f "$DEPLOY_DIR/.env" ]; then
             install -m 0600 .env.dist "$DEPLOY_DIR/.env"
           fi
+
+          if [ -z "$OTEL_EXPORTER_OTLP_HEADERS" ]; then
+            echo "OTEL_EXPORTER_OTLP_HEADERS secret is empty" >&2
+            exit 1
+          fi
+          case "$OTEL_EXPORTER_OTLP_HEADERS" in
+            *'"'*|*'\'*|*'$'*|*$'\n'*|*$'\r'*)
+              echo "OTEL_EXPORTER_OTLP_HEADERS secret contains unsupported dotenv characters" >&2
+              exit 1
+              ;;
+          esac
+
+          env_file=$(mktemp "$DEPLOY_DIR/.env.XXXXXX")
+          trap 'rm -f "$env_file"' EXIT
+          {
+            grep -v '^OTEL_EXPORTER_OTLP_HEADERS=' "$DEPLOY_DIR/.env" || true
+            printf 'OTEL_EXPORTER_OTLP_HEADERS="%s"\n' "$OTEL_EXPORTER_OTLP_HEADERS"
+          } > "$env_file"
+          chmod 0600 "$env_file"
+          mv "$env_file" "$DEPLOY_DIR/.env"
+          trap - EXIT
 
       - name: Deploy
         run: |
