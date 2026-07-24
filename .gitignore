@@ -1,0 +1,19 @@
+# Go build and test artifacts
+/tooltown
+*.test
+*.out
+coverage.*
+
+# Workspace-local task state
+/.workspace/tasks/
+
+# Local environment
+.env
+.env.*
+!.env.example
+
+# Editors and operating systems
+.DS_Store
+.idea/
+.vscode/
+*.swp
