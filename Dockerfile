@@ -2,11 +2,11 @@
 
 FROM ghcr.io/gohugoio/hugo:v0.164.0@sha256:f8671f2299e60154536c158bff8ce27f6eef4dddbbfc73bcce66263276ae0f80 AS site-builder
 WORKDIR /src
-COPY hugo.toml ./
-COPY assets ./assets
-COPY content ./content
-COPY layouts ./layouts
-COPY tools ./tools
+COPY --chown=hugo:hugo hugo.toml ./
+COPY --chown=hugo:hugo assets ./assets
+COPY --chown=hugo:hugo content ./content
+COPY --chown=hugo:hugo layouts ./layouts
+COPY --chown=hugo:hugo tools ./tools
 RUN hugo --destination /tmp/site --gc --minify --noBuildLock
 
 FROM golang:1.26.5-alpine3.23@sha256:622e56dbc11a8cfe87cafa2331e9a201877271cbff918af53d3be315f3da88cc AS builder
