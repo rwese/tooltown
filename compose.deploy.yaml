@@ -2,8 +2,14 @@ services:
   web:
     image: ghcr.io/rwese/tooltown:latest
     restart: unless-stopped
-    ports:
-      - "${TOOLTOWN_PORT:-8080}:8080"
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.tooltown.rule=Host(`tooltown.void.cold.at`)
+      - traefik.http.routers.tooltown.entrypoints=websecure
+      - traefik.http.routers.tooltown.tls=true
+      - traefik.http.services.tooltown.loadbalancer.server.port=8080
+      - managed-by=apps
+      - com.centurylinklabs.watchtower.enable=true
     read_only: true
     cap_drop:
       - ALL
