@@ -41,6 +41,12 @@ For local Compose, copy `.env.dist` to `.env`, then:
 
 Production deployment reads `OTEL_EXPORTER_OTLP_ENDPOINT` and `OTEL_EXPORTER_OTLP_HEADERS` from secrets in the `tooldown.void.cold.at` GitHub environment and syncs them into `/var/lib/apps/tooltown/.env`; use `deployment.environment=production`. Metrics must keep `OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE=delta`; Bluebox rejects cumulative metrics.
 
+## Sentry
+
+Set `SENTRY_DSN` in `.env` from the Sentry project setup and optionally set `SENTRY_ENVIRONMENT`; Compose defaults it to `development` locally and `production` when deployed. Production deployment requires a `SENTRY_DSN` secret in the `tooldown.void.cold.at` GitHub environment.
+
+The service sends application errors, existing application logs, and a `tooltown.startup` count metric to Sentry. Sentry logs and metrics are enabled by default in `sentry-go` v0.48.0. Sentry performance tracing stays disabled because OpenTelemetry already instruments HTTP requests; enabling both would duplicate request transactions and trace propagation.
+
 Published images include `vcs.repository.url.full` and `vcs.ref.head.revision` from CI build metadata so Bluebox can map telemetry to its source revision. Direct `go run .` and local images omit those attributes unless build metadata is supplied.
 
 ## Build the image
@@ -70,7 +76,7 @@ After a successful `main` build, GitHub Actions deploys on the runner labeled `a
 
 Traefik discovers the service through Docker labels; the container publishes no host port. Configure the image, hostname, container port, restart policy, Traefik router/service settings, management label, and Watchtower opt-in in the deployment `.env`. All supported variables and defaults are documented in `.env.dist`. Use distinct `COMPOSE_PROJECT_NAME`, `TOOLTOWN_TRAEFIK_ROUTER`, `TOOLTOWN_TRAEFIK_SERVICE`, and `TOOLTOWN_HOST` values for separate deployments on the same host.
 
-The deployment runner requires Docker Compose and write access to `/var/lib/apps`. Subsequent deployments preserve its local `.env`. Each deployment updates `OTEL_EXPORTER_OTLP_ENDPOINT` and `OTEL_EXPORTER_OTLP_HEADERS` from environment secrets of the same names.
+The deployment runner requires Docker Compose and write access to `/var/lib/apps`. Subsequent deployments preserve its local `.env`. Each deployment updates `OTEL_EXPORTER_OTLP_ENDPOINT`, `OTEL_EXPORTER_OTLP_HEADERS`, and `SENTRY_DSN` from environment secrets of the same names.
 
 ## Test
 

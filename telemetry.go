@@ -138,6 +138,7 @@ func (t *telemetry) printf(ctx context.Context, severity otellog.Severity, forma
 
 	// Preserve the standard logger's sink, format, timestamp, and precision.
 	stdlog.Print(message)
+	captureSentryLog(ctx, severity, message)
 
 	var record otellog.Record
 	record.SetTimestamp(timestamp)

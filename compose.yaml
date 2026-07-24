@@ -12,6 +12,8 @@ services:
       OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE: "${OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE:-delta}"
       OTEL_SERVICE_NAME: "${OTEL_SERVICE_NAME:-tooltown}"
       OTEL_RESOURCE_ATTRIBUTES: "${OTEL_RESOURCE_ATTRIBUTES:-service.namespace=rwese,deployment.environment=development}"
+      SENTRY_DSN: "${SENTRY_DSN:-}"
+      SENTRY_ENVIRONMENT: "${SENTRY_ENVIRONMENT:-development}"
     volumes:
       - ./static:/app/static:ro
     read_only: true

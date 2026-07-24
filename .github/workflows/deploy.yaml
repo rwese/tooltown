@@ -45,6 +45,7 @@ jobs:
         env:
           OTEL_EXPORTER_OTLP_ENDPOINT: ${{ secrets.OTEL_EXPORTER_OTLP_ENDPOINT }}
           OTEL_EXPORTER_OTLP_HEADERS: ${{ secrets.OTEL_EXPORTER_OTLP_HEADERS }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
         run: |
           install -d -m 0755 "$DEPLOY_DIR"
           install -m 0644 compose.deploy.yaml "$DEPLOY_DIR/compose.yaml"
@@ -52,7 +53,7 @@ jobs:
             install -m 0600 .env.dist "$DEPLOY_DIR/.env"
           fi
 
-          for name in OTEL_EXPORTER_OTLP_ENDPOINT OTEL_EXPORTER_OTLP_HEADERS; do
+          for name in OTEL_EXPORTER_OTLP_ENDPOINT OTEL_EXPORTER_OTLP_HEADERS SENTRY_DSN; do
             value=${!name}
             if [ -z "$value" ]; then
               echo "$name secret is empty" >&2
@@ -69,9 +70,10 @@ jobs:
           env_file=$(mktemp "$DEPLOY_DIR/.env.XXXXXX")
           trap 'rm -f "$env_file"' EXIT
           {
-            grep -v -E '^OTEL_EXPORTER_OTLP_(ENDPOINT|HEADERS)=' "$DEPLOY_DIR/.env" || true
+            grep -v -E '^(OTEL_EXPORTER_OTLP_(ENDPOINT|HEADERS)|SENTRY_DSN)=' "$DEPLOY_DIR/.env" || true
             printf 'OTEL_EXPORTER_OTLP_ENDPOINT="%s"\n' "$OTEL_EXPORTER_OTLP_ENDPOINT"
             printf 'OTEL_EXPORTER_OTLP_HEADERS="%s"\n' "$OTEL_EXPORTER_OTLP_HEADERS"
+            printf 'SENTRY_DSN="%s"\n' "$SENTRY_DSN"
           } > "$env_file"
           chmod 0600 "$env_file"
           mv "$env_file" "$DEPLOY_DIR/.env"

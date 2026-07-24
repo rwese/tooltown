@@ -10,28 +10,37 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/getsentry/sentry-go"
 	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 	otellog "go.opentelemetry.io/otel/log"
 )
 
 const (
-	address         = ":8080"
-	staticDir       = "static"
-	shutdownTimeout = 10 * time.Second
+	address            = ":8080"
+	staticDir          = "static"
+	shutdownTimeout    = 10 * time.Second
+	sentryFlushTimeout = 2 * time.Second
 )
 
 func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
+	if err := initSentry(ctx); err != nil {
+		log.Fatalf("sentry.Init: %s", err)
+	}
+
 	telemetry, err := newTelemetry(ctx)
 	if err != nil {
+		sentry.CaptureException(err)
+		sentry.Flush(sentryFlushTimeout)
 		log.Fatal(err)
 	}
 
 	telemetry.printf(ctx, otellog.SeverityInfo, "serving %s at http://localhost%s", staticDir, address)
 	serveErr := serve(ctx, newHandler(staticDir))
 	if serveErr != nil {
+		sentry.CaptureException(serveErr)
 		telemetry.printf(ctx, otellog.SeverityError, "%v", serveErr)
 	}
 
@@ -39,6 +48,9 @@ func main() {
 	defer cancel()
 	if err := telemetry.shutdown(shutdownCtx); err != nil {
 		log.Printf("shut down OpenTelemetry: %v", err)
+	}
+	if !sentry.Flush(sentryFlushTimeout) {
+		log.Print("shut down Sentry: flush timed out")
 	}
 
 	if serveErr != nil {

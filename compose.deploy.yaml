@@ -9,6 +9,8 @@ services:
       OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE: "${OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE:-delta}"
       OTEL_SERVICE_NAME: "${OTEL_SERVICE_NAME:-tooltown}"
       OTEL_RESOURCE_ATTRIBUTES: "${OTEL_RESOURCE_ATTRIBUTES:-service.namespace=rwese,deployment.environment=production}"
+      SENTRY_DSN: "${SENTRY_DSN:-}"
+      SENTRY_ENVIRONMENT: "${SENTRY_ENVIRONMENT:-production}"
     labels:
       - "traefik.enable=${TOOLTOWN_TRAEFIK_ENABLED:-true}"
       - "traefik.http.routers.${TOOLTOWN_TRAEFIK_ROUTER:-tooltown}.rule=Host(`${TOOLTOWN_HOST:-tooltown.void.cold.at}`)"

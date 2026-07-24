@@ -6,6 +6,7 @@ coverage.*
 
 # Workspace-local task state
 /.workspace/tasks/
+/.bluebox/
 
 # Local environment
 .env
