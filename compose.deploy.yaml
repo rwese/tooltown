@@ -1,15 +1,15 @@
 services:
   web:
-    image: ghcr.io/rwese/tooltown:latest
-    restart: unless-stopped
+    image: "${TOOLTOWN_IMAGE:-ghcr.io/rwese/tooltown:latest}"
+    restart: "${TOOLTOWN_RESTART_POLICY:-unless-stopped}"
     labels:
-      - traefik.enable=true
-      - traefik.http.routers.tooltown.rule=Host(`tooltown.void.cold.at`)
-      - traefik.http.routers.tooltown.entrypoints=websecure
-      - traefik.http.routers.tooltown.tls=true
-      - traefik.http.services.tooltown.loadbalancer.server.port=8080
-      - managed-by=apps
-      - com.centurylinklabs.watchtower.enable=true
+      - "traefik.enable=${TOOLTOWN_TRAEFIK_ENABLED:-true}"
+      - "traefik.http.routers.${TOOLTOWN_TRAEFIK_ROUTER:-tooltown}.rule=Host(`${TOOLTOWN_HOST:-tooltown.void.cold.at}`)"
+      - "traefik.http.routers.${TOOLTOWN_TRAEFIK_ROUTER:-tooltown}.entrypoints=${TOOLTOWN_TRAEFIK_ENTRYPOINTS:-websecure}"
+      - "traefik.http.routers.${TOOLTOWN_TRAEFIK_ROUTER:-tooltown}.tls=${TOOLTOWN_TRAEFIK_TLS:-true}"
+      - "traefik.http.services.${TOOLTOWN_TRAEFIK_SERVICE:-tooltown}.loadbalancer.server.port=${TOOLTOWN_CONTAINER_PORT:-8080}"
+      - "managed-by=${TOOLTOWN_MANAGED_BY:-apps}"
+      - "com.centurylinklabs.watchtower.enable=${TOOLTOWN_WATCHTOWER_ENABLED:-true}"
     read_only: true
     cap_drop:
       - ALL
