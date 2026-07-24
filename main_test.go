@@ -17,6 +17,14 @@ import (
 	"go.opentelemetry.io/otel/trace"
 )
 
+func TestNewResourceWithoutUserEnvironment(t *testing.T) {
+	t.Setenv("USER", "")
+
+	if _, err := newResource(t.Context()); err != nil {
+		t.Fatalf("newResource() error = %v", err)
+	}
+}
+
 func TestTelemetryExportsAllSignals(t *testing.T) {
 	var (
 		mu    sync.Mutex

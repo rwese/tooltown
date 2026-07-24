@@ -20,6 +20,7 @@ RUN --mount=type=cache,target=/go/pkg/mod \
 FROM scratch AS runtime
 WORKDIR /app
 
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=builder --chown=65532:65532 /tooltown /tooltown
 COPY --chown=65532:65532 static ./static
 
