@@ -12,6 +12,8 @@
 - `main.go`: server entry point and HTTP setup.
 - `main_test.go`: HTTP behavior tests.
 - `static/`: files served directly by the server.
+- `Dockerfile`: lean production image built in multiple stages.
+- `compose.yaml`: local container workflow with live-mounted static files.
 - `.workspace/tasks/`: optional, ignored scratch state for active work; delete completed task files.
 
 ## Development
@@ -19,6 +21,7 @@
 - Run with `go run .`.
 - Format changed Go files with `gofmt`.
 - Run `go test ./...` and `go vet ./...` before committing.
+- Validate container changes with `docker compose config`, `hadolint Dockerfile`, and `docker build --load .`.
 - Cover behavior changes with tests.
 
 ## Git hygiene
