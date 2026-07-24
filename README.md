@@ -31,7 +31,7 @@ Stop it with `docker compose down`.
 
 ## OpenTelemetry and Bluebox
 
-The Go service exports request traces, trace-linked application logs, HTTP/runtime metrics, and W3C trace context over OTLP/HTTP. Existing standard-log output and timestamps are unchanged. Telemetry stays disabled when `OTEL_EXPORTER_OTLP_ENDPOINT` is empty.
+The Go service exports request traces, existing application logs, HTTP/runtime metrics, and W3C trace context over OTLP/HTTP. The log exporter preserves standard-log output and timestamps and carries trace context when a log is emitted from a traced context; the current static-file handler emits no request logs. Telemetry stays disabled when `OTEL_EXPORTER_OTLP_ENDPOINT` is empty.
 
 For local Compose, copy `.env.dist` to `.env`, then:
 
@@ -39,7 +39,7 @@ For local Compose, copy `.env.dist` to `.env`, then:
 2. Open Bluebox **Setup**, use **Reveal token**, and set the exact displayed value in `OTEL_EXPORTER_OTLP_HEADERS`. Keep the dotenv value quoted because it contains a space; never commit it.
 3. Set `OTEL_RESOURCE_ATTRIBUTES=service.namespace=rwese,deployment.environment=development`.
 
-Production uses the same variables in `/var/lib/apps/tooltown/.env`, with `deployment.environment=production`. Metrics must keep `OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE=delta`; Bluebox rejects cumulative metrics.
+Production deployment reads `OTEL_EXPORTER_OTLP_ENDPOINT` and `OTEL_EXPORTER_OTLP_HEADERS` from secrets in the `tooldown.void.cold.at` GitHub environment and syncs them into `/var/lib/apps/tooltown/.env`; use `deployment.environment=production`. Metrics must keep `OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE=delta`; Bluebox rejects cumulative metrics.
 
 Published images include `vcs.repository.url.full` and `vcs.ref.head.revision` from CI build metadata so Bluebox can map telemetry to its source revision. Direct `go run .` and local images omit those attributes unless build metadata is supplied.
 
