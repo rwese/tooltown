@@ -35,6 +35,20 @@ docker build --load -t tooltown:dev .
 docker run --rm -p 8080:8080 tooltown:dev
 ```
 
+## Published image
+
+Successful builds from `main` are published to GitHub Container Registry as:
+
+```text
+ghcr.io/rwese/tooltown:latest
+```
+
+Run it with:
+
+```sh
+docker run --rm -p 8080:8080 ghcr.io/rwese/tooltown:latest
+```
+
 ## Test
 
 ```sh
