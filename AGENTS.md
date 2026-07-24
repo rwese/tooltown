@@ -14,6 +14,7 @@
 - `static/`: files served directly by the server.
 - `Dockerfile`: lean production image built in multiple stages.
 - `compose.yaml`: local container workflow with live-mounted static files.
+- `.github/workflows/container.yaml`: tests changes and publishes successful `main` images.
 - `.workspace/tasks/`: optional, ignored scratch state for active work; delete completed task files.
 
 ## Development

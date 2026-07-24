@@ -11,3 +11,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - A Go web server that serves files from the `static/` directory.
 - An example static page and automated HTTP tests.
 - A lean, non-root multi-stage container image and Compose workflow for local development.
+- A GitHub Actions workflow that tests `main`, then builds and publishes its image to GHCR as `latest`.
