@@ -1,0 +1,24 @@
+schema: 1
+name: canonincal-clone
+tagline: Clone a Git URL into a canonical host/path directory.
+summary: A small Go CLI that mirrors a repository under `./<hostname>/<path>` so multiple remotes stay organised.
+description: |
+  `canonincal-clone` passes a clone URL to `git clone` while deriving the destination from the URL itself. The user, port, and trailing `.git` are stripped so the same source always lands in the same place on disk. Use `-C` to choose a different base directory; the current directory is the default.
+category: utility
+status: active
+language: Go
+license: MIT License
+platforms:
+  - Linux
+  - macOS
+  - Windows
+source_url: https://github.com/rwese/canonincal-clone
+features:
+  - Strips the user, port, and trailing `.git` from the clone URL.
+  - Resolves a destination of the form `<base>/<hostname>/<path>`.
+  - Accepts a custom base directory with `-C` or `--directory`.
+install: go install github.com/rwese/canonincal-clone@317309f70e61a690e85cf0f72b44a207292508f5
+usage: |-
+  canonincal-clone git@github.com:rwese/pwd-copy.git
+  canonincal-clone -C ~/Repos https://github.com/rwese/pwd-copy.git
+screenshots:
