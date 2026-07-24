@@ -14,6 +14,7 @@
 - `static/`: files served directly by the server.
 - `Dockerfile`: lean production image built in multiple stages.
 - `compose.yaml`: local container workflow with live-mounted static files.
+- `.env.dist`: committed template for every supported environment variable.
 - `.github/workflows/container.yaml`: tests changes and publishes successful `main` images.
 - `.workspace/tasks/`: optional, ignored scratch state for active work; delete completed task files.
 
@@ -23,6 +24,7 @@
 - Format changed Go files with `gofmt`.
 - Run `go test ./...` and `go vet ./...` before committing.
 - Validate container changes with `docker compose config`, `hadolint Dockerfile`, and `docker build --load .`.
+- Keep `.env.dist` updated whenever environment variables are added, changed, or removed.
 - Cover behavior changes with tests.
 
 ## Git hygiene

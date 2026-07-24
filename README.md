@@ -12,9 +12,10 @@ Open <http://localhost:8080/>.
 
 ## Run with Compose
 
-Build and start the lean container:
+Create local configuration, then build and start the lean container:
 
 ```sh
+cp .env.dist .env
 docker compose up --build
 ```
 
