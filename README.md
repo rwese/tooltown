@@ -38,7 +38,7 @@ docker run --rm -p 8080:8080 tooltown:dev
 
 ## Published image
 
-CI runs on a self-hosted GitHub Actions runner. Successful builds from `main` are published to GitHub Container Registry as:
+CI runs on the GitHub Actions runner labeled `severed`. Successful builds from `main` are published to GitHub Container Registry as:
 
 ```text
 ghcr.io/rwese/tooltown:latest
@@ -52,7 +52,7 @@ docker run --rm -p 8080:8080 ghcr.io/rwese/tooltown:latest
 
 ## Deployment
 
-After a successful `main` build, GitHub Actions deploys on a self-hosted runner labeled `apps-deploy`. It installs `compose.deploy.yaml` as `/var/lib/apps/tooltown/compose.yaml`, creates `.env` from `.env.dist` only when absent, then pulls and starts the latest image.
+After a successful `main` build, GitHub Actions deploys on the runner labeled `apps-deploy`. It installs `compose.deploy.yaml` as `/var/lib/apps/tooltown/compose.yaml`, creates `.env` from `.env.dist` only when absent, then pulls and starts the latest image.
 
 The deployment runner requires Docker Compose and passwordless `sudo` for creating `/var/lib/apps/tooltown`. Subsequent deployments preserve its local `.env`.
 
