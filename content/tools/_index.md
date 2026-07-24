@@ -1,4 +1,4 @@
 ---
 title: Tool index
-description: Every system currently listed in Tooltown.
+description: Every tool currently listed in Tooltown.
 ---

@@ -1,27 +1,27 @@
 {{ define "main" }}
   {{- $tools := site.GetPage "/tools" }}
   <section class="hero shell" aria-labelledby="title">
-    <div class="hero-copy">
-      <p class="overline">INDEPENDENT SYSTEMS / LIVE INDEX</p>
+    <div class="hero-copy text-block">
+      <p class="overline">TOOLS I DEVELOP / TOWN INDEX</p>
       <h1 id="title">TOOLS<br><span>INDEX</span></h1>
       <p class="intro">{{ site.Params.description }}</p>
     </div>
     <div class="interface" aria-hidden="true">
       <div class="interface-head">
-        <span>SYS.MAP</span><span>{{ printf "%02d" (len $tools.RegularPages) }} NODES</span>
+        <span>TOOL.MAP</span><span>{{ printf "%02d" (len $tools.RegularPages) }} TOOLS</span>
       </div>
       <div class="radar"><i></i><i></i><i></i><b></b></div>
       <div class="readout">
-        <span>STATUS</span><strong>READY</strong><span>LATENCY</span><strong>STATIC</strong>
+        <span>STATUS</span><strong>READY</strong><span>CATALOG</span><strong>CURATED</strong>
       </div>
     </div>
   </section>
 
   <section id="projects" class="catalog shell" aria-labelledby="projects-title">
-    <div class="section-head">
+    <div class="section-head text-block">
       <div>
         <span>DIRECTORY</span>
-        <h2 id="projects-title">SELECT A SYSTEM</h2>
+        <h2 id="projects-title">SELECT A TOOL</h2>
       </div>
       <p>{{ printf "%02d" (len $tools.RegularPages) }} ENTRIES // GENERATED SNAPSHOT</p>
     </div>
@@ -38,13 +38,13 @@
             {{ end }}
             <em>{{ .Params.category | upper }}</em>
           </div>
-          <div class="card-head"><span>SYS_{{ printf "%03d" (add $index 1) }}</span><span>{{ .Params.category | upper }}</span></div>
+          <div class="card-head"><span>TOOL_{{ printf "%03d" (add $index 1) }}</span><span>{{ .Params.category | upper }}</span></div>
           <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
           <p>{{ .Params.summary }}</p>
-          <div class="card-foot"><span>OPEN DETAIL NODE</span><span aria-hidden="true">↗</span></div>
+          <div class="card-foot"><span>OPEN TOOL DETAILS</span><span aria-hidden="true">↗</span></div>
         </article>
       {{ else }}
-        <p class="empty-state">NO SYSTEMS REGISTERED</p>
+        <p class="empty-state">NO TOOLS LISTED</p>
       {{ end }}
     </div>
   </section>

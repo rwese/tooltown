@@ -1,7 +1,7 @@
 {{ define "main" }}
   <article class="tool-detail shell">
     <header class="detail-hero">
-      <div>
+      <div class="text-block">
         <p class="overline">{{ .Params.category | upper }} / {{ .Params.status | upper }}</p>
         <h1 id="title">{{ .Title }}</h1>
         <p class="intro">{{ .Params.tagline }}</p>
@@ -16,7 +16,7 @@
 
     <div class="detail-grid">
       <section class="detail-copy" aria-labelledby="overview-title">
-        <p class="section-code">SYS.OVERVIEW</p>
+        <p class="section-code">TOOL.OVERVIEW</p>
         <h2 id="overview-title">{{ .Params.summary }}</h2>
         <div class="prose">{{ .Params.description | markdownify }}</div>
 
@@ -37,8 +37,8 @@
       </section>
 
       {{ with .Params.screenshots }}
-        <aside class="screenshots" aria-labelledby="screenshots-title">
-          <p class="section-code">SYS.CAPTURE</p>
+        <aside class="screenshots text-block" aria-labelledby="screenshots-title">
+          <p class="section-code">TOOL.CAPTURE</p>
           <h2 id="screenshots-title">Interface</h2>
           {{ range . }}
             {{- $screenshot := . }}

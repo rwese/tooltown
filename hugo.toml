@@ -6,7 +6,7 @@ staticDir = "site-static"
 disableKinds = ["taxonomy", "term", "rss"]
 
 [params]
-description = "Focused software. Verified purpose. Direct access."
+description = "A focused collection of tools I develop, with clear jobs and direct access."
 
 [[module.mounts]]
 source = "content"

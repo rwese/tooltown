@@ -68,6 +68,12 @@ label:has(input:focus-visible) {
   width: min(82rem, calc(100% - 2rem));
   margin-inline: auto;
 }
+.text-block {
+  border: 2px solid var(--line);
+  background: var(--surface);
+  box-shadow: 7px 7px 0 var(--shadow);
+  padding: clamp(1rem, 3vw, 2rem);
+}
 .topbar {
   display: grid;
   grid-template-columns: 1fr auto auto;
@@ -86,19 +92,6 @@ label:has(input:focus-visible) {
 }
 .brand span {
   color: var(--hot);
-}
-.system-state {
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-}
-.system-state span {
-  display: inline-block;
-  width: 0.55rem;
-  height: 0.55rem;
-  margin-right: 0.45rem;
-  background: var(--accent);
-  border: 1px solid var(--line);
 }
 .scheme-picker {
   display: flex;
@@ -176,8 +169,10 @@ body:has(#scheme-cyber:checked) h1 span {
 .intro {
   max-width: 35rem;
   margin: 2rem 0 0;
+  border: 2px solid var(--line);
   border-left: 6px solid var(--hot);
-  padding-left: 1rem;
+  background: var(--surface);
+  padding: 0.8rem 1rem;
   font-weight: 700;
 }
 .interface {
@@ -260,10 +255,7 @@ body:has(#scheme-cyber:checked) h1 span {
   display: flex;
   justify-content: space-between;
   align-items: end;
-  border-top: 4px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  background: var(--canvas);
-  padding: 1rem 0;
+  padding: 1rem;
 }
 .section-head span,
 .section-head p {
@@ -467,9 +459,6 @@ h2 {
   .topbar {
     grid-template-columns: 1fr auto;
   }
-  .system-state {
-    display: none;
-  }
   .hero {
     grid-template-columns: 1fr;
     padding-top: 4rem;
@@ -545,7 +534,8 @@ h2 {
   text-underline-offset: 0.18em;
 }
 .page-hero {
-  padding: clamp(4rem, 9vw, 8rem) 0 4rem;
+  margin-top: clamp(2rem, 5vw, 4rem);
+  margin-bottom: 4rem;
 }
 .page-hero h1,
 .detail-hero h1 {
@@ -635,6 +625,12 @@ h2 {
 .screenshots {
   min-width: 0;
 }
+.detail-copy {
+  border: 2px solid var(--line);
+  background: var(--surface);
+  box-shadow: 7px 7px 0 var(--shadow);
+  padding: clamp(1rem, 3vw, 2rem);
+}
 .section-code {
   margin: 0 0 0.5rem;
   color: var(--hot);
@@ -693,8 +689,10 @@ code {
   padding-bottom: 6rem;
 }
 .document-body {
-  border-top: 4px solid var(--line);
-  padding-top: 2rem;
+  border: 2px solid var(--line);
+  background: var(--surface);
+  box-shadow: 7px 7px 0 var(--shadow);
+  padding: clamp(1rem, 3vw, 2rem);
   font-size: 1.05rem;
 }
 .action {
@@ -709,6 +707,8 @@ code {
 }
 .empty-state {
   border: 2px solid var(--line);
+  background: var(--surface);
+  box-shadow: 7px 7px 0 var(--shadow);
   padding: 2rem;
 }
 @media (max-width: 52rem) {

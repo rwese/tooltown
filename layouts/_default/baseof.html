@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {{- $description := .Description | default site.Params.description }}
     <meta name="description" content="{{ $description }}">
-    <title>{{ if .IsHome }}{{ site.Title }} — High-Tech Index{{ else }}{{ .Title }} — {{ site.Title }}{{ end }}</title>
+    <title>{{ if .IsHome }}{{ site.Title }} — Tools I Develop{{ else }}{{ .Title }} — {{ site.Title }}{{ end }}</title>
     {{- $css := resources.Get "css/high-tech.css" | minify | fingerprint }}
     <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
   </head>
@@ -36,7 +36,7 @@
     </main>
 
     <footer class="footer shell">
-      <span>TOOLTOWN / STATIC PROJECT NETWORK</span>
+      <span>TOOLTOWN / TOOLS I DEVELOP</span>
       <span>BUILT WITH HUGO / NO SCRIPT REQUIRED</span>
     </footer>
   </body>
