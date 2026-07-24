@@ -13,3 +13,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - A lean, non-root multi-stage container image and Compose workflow for local development.
 - A GitHub Actions workflow that tests `main`, then builds and publishes its image to GHCR as `latest`.
 - A distributable environment template for local Compose configuration.
+- Self-hosted CI and automatic deployment of successful `main` builds to `/var/lib/apps/tooltown`.

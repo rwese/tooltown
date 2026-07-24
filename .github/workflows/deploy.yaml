@@ -1,0 +1,52 @@
+name: Deploy
+
+on:
+  workflow_run:
+    workflows:
+      - Build, test, and publish
+    types:
+      - completed
+
+concurrency:
+  group: deploy-tooltown
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  deploy:
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_branch == 'main'
+    runs-on:
+      - self-hosted
+      - apps-deploy
+    env:
+      DEPLOY_DIR: /var/lib/apps/tooltown
+    steps:
+      - name: Check out deployed revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@06fb636fac595d6fb4b28a5dfcb21a6f5091859c # v4.5.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install deployment configuration
+        run: |
+          sudo install -d -m 0755 -o "$(id -u)" -g "$(id -g)" "$DEPLOY_DIR"
+          install -m 0644 compose.deploy.yaml "$DEPLOY_DIR/compose.yaml"
+          if [ ! -f "$DEPLOY_DIR/.env" ]; then
+            install -m 0600 .env.dist "$DEPLOY_DIR/.env"
+          fi
+
+      - name: Deploy
+        run: |
+          docker compose --project-directory "$DEPLOY_DIR" pull
+          docker compose --project-directory "$DEPLOY_DIR" up -d --remove-orphans
