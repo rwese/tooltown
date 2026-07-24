@@ -43,6 +43,7 @@ jobs:
 
       - name: Install deployment configuration
         env:
+          OTEL_EXPORTER_OTLP_ENDPOINT: ${{ secrets.OTEL_EXPORTER_OTLP_ENDPOINT }}
           OTEL_EXPORTER_OTLP_HEADERS: ${{ secrets.OTEL_EXPORTER_OTLP_HEADERS }}
         run: |
           install -d -m 0755 "$DEPLOY_DIR"
@@ -51,21 +52,25 @@ jobs:
             install -m 0600 .env.dist "$DEPLOY_DIR/.env"
           fi
 
-          if [ -z "$OTEL_EXPORTER_OTLP_HEADERS" ]; then
-            echo "OTEL_EXPORTER_OTLP_HEADERS secret is empty" >&2
-            exit 1
-          fi
-          case "$OTEL_EXPORTER_OTLP_HEADERS" in
-            *'"'*|*'\'*|*'$'*|*$'\n'*|*$'\r'*)
-              echo "OTEL_EXPORTER_OTLP_HEADERS secret contains unsupported dotenv characters" >&2
+          for name in OTEL_EXPORTER_OTLP_ENDPOINT OTEL_EXPORTER_OTLP_HEADERS; do
+            value=${!name}
+            if [ -z "$value" ]; then
+              echo "$name secret is empty" >&2
               exit 1
-              ;;
-          esac
+            fi
+            case "$value" in
+              *'"'*|*'\'*|*'$'*|*$'\n'*|*$'\r'*)
+                echo "$name secret contains unsupported dotenv characters" >&2
+                exit 1
+                ;;
+            esac
+          done
 
           env_file=$(mktemp "$DEPLOY_DIR/.env.XXXXXX")
           trap 'rm -f "$env_file"' EXIT
           {
-            grep -v '^OTEL_EXPORTER_OTLP_HEADERS=' "$DEPLOY_DIR/.env" || true
+            grep -v -E '^OTEL_EXPORTER_OTLP_(ENDPOINT|HEADERS)=' "$DEPLOY_DIR/.env" || true
+            printf 'OTEL_EXPORTER_OTLP_ENDPOINT="%s"\n' "$OTEL_EXPORTER_OTLP_ENDPOINT"
             printf 'OTEL_EXPORTER_OTLP_HEADERS="%s"\n' "$OTEL_EXPORTER_OTLP_HEADERS"
           } > "$env_file"
           chmod 0600 "$env_file"

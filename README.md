@@ -70,7 +70,7 @@ After a successful `main` build, GitHub Actions deploys on the runner labeled `a
 
 Traefik discovers the service through Docker labels; the container publishes no host port. Configure the image, hostname, container port, restart policy, Traefik router/service settings, management label, and Watchtower opt-in in the deployment `.env`. All supported variables and defaults are documented in `.env.dist`. Use distinct `COMPOSE_PROJECT_NAME`, `TOOLTOWN_TRAEFIK_ROUTER`, `TOOLTOWN_TRAEFIK_SERVICE`, and `TOOLTOWN_HOST` values for separate deployments on the same host.
 
-The deployment runner requires Docker Compose and write access to `/var/lib/apps`. Subsequent deployments preserve its local `.env`; populate the OpenTelemetry endpoint there before deployment. Each deployment updates `OTEL_EXPORTER_OTLP_HEADERS` from the environment secret of the same name.
+The deployment runner requires Docker Compose and write access to `/var/lib/apps`. Subsequent deployments preserve its local `.env`. Each deployment updates `OTEL_EXPORTER_OTLP_ENDPOINT` and `OTEL_EXPORTER_OTLP_HEADERS` from environment secrets of the same names.
 
 ## Test
 
