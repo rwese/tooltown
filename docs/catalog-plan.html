@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tooltown catalog plan</title>
+  <style>
+    /* The design-system stylesheet is inlined below so the document renders
+       correctly when opened from file:// — browsers block subresource loads
+       from file:// to https://. Source: https://raw.githubusercontent.com/rwese/design-systems/084de2f70e25ed3359036db11f87a8b5884f785d/design-system-cdn.css (vendored copy at design-system-cdn.css). */
+    /* === BEGIN INLINED design-system-cdn.css === */
+    /* Lean single-page documentation system */
+    :root {
+      color-scheme: light;
+      --ds-page: #f5f7fb;
+      --ds-surface: #ffffff;
+      --ds-surface-muted: #f8fafc;
+      --ds-text: #182230;
+      --ds-text-muted: #5d6b82;
+      --ds-border: #cbd5e1;
+      --ds-border-strong: #94a3b8;
+      --ds-link: #174ea6;
+      --ds-link-visited: #5a3d99;
+      --ds-focus: #f59e0b;
+      --ds-info: #1d4ed8;
+      --ds-info-bg: #eff6ff;
+      --ds-warning: #a16207;
+      --ds-warning-bg: #fffbeb;
+      --ds-code: #0f172a;
+      --ds-code-bg: #eef2f7;
+      --ds-pre-bg: #0f172a;
+      --ds-pre-text: #e2e8f0;
+      --ds-shadow: 0 18px 45px rgb(15 23 42 / 0.08);
+      --ds-heading-scale: 1;
+      --ds-font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --ds-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", monospace;
+      --ds-radius: 8px;
+      --ds-measure: 72ch;
+    }
+
+    .ds-theme--core {
+      color-scheme: light;
+    }
+
+    .ds-theme--console-light {
+      color-scheme: light;
+    }
+
+    .ds-theme--console,
+    .ds-theme--console-dark,
+    .ds-theme-stage:has(.ds-theme-switch__input[value="console-dark"]:checked) .ds-theme-target {
+      color-scheme: dark;
+      --ds-page: #111317;
+      --ds-surface: #191d24;
+      --ds-surface-muted: #222832;
+      --ds-text: #edf1f7;
+      --ds-text-muted: #a8b3c4;
+      --ds-border: #3c4656;
+      --ds-border-strong: #738198;
+      --ds-link: #8fd0ff;
+      --ds-link-visited: #dda8ff;
+      --ds-focus: #ffd166;
+      --ds-info: #8fd0ff;
+      --ds-info-bg: #173348;
+      --ds-warning: #ffd166;
+      --ds-warning-bg: #3d2f15;
+      --ds-code: #edf1f7;
+      --ds-code-bg: #2a323f;
+      --ds-pre-bg: #090b0f;
+      --ds-pre-text: #f0f6ff;
+      --ds-shadow: 0 22px 60px rgb(0 0 0 / 0.35);
+    }
+
+    .ds-theme--console-dimmed,
+    .ds-theme-stage:has(.ds-theme-switch__input[value="console-dimmed"]:checked) .ds-theme-target {
+      color-scheme: dark;
+      --ds-page: #1b1d21;
+      --ds-surface: #24272d;
+      --ds-surface-muted: #2f333b;
+      --ds-text: #e3e8ef;
+      --ds-text-muted: #aab3c0;
+      --ds-border: #4b535f;
+      --ds-border-strong: #808b9b;
+      --ds-link: #9dccff;
+      --ds-link-visited: #cfb5ff;
+      --ds-focus: #f4c95d;
+      --ds-info: #9dccff;
+      --ds-info-bg: #243c51;
+      --ds-warning: #f4c95d;
+      --ds-warning-bg: #443820;
+      --ds-code: #f0f4f9;
+      --ds-code-bg: #383e48;
+      --ds-pre-bg: #17191d;
+      --ds-pre-text: #edf3fb;
+      --ds-shadow: 0 20px 52px rgb(0 0 0 / 0.28);
+    }
+
+    .ds-theme--console-paper,
+    .ds-theme-stage:has(.ds-theme-switch__input[value="console-paper"]:checked) .ds-theme-target {
+      color-scheme: light;
+      --ds-page: #ffffff;
+      --ds-surface: #ffffff;
+      --ds-surface-muted: #fff4b8;
+      --ds-text: #000000;
+      --ds-text-muted: #193549;
+      --ds-border: #000000;
+      --ds-border-strong: #000000;
+      --ds-link: #193549;
+      --ds-link-visited: #193549;
+      --ds-focus: #ffc600;
+      --ds-info: #193549;
+      --ds-info-bg: #eef7ff;
+      --ds-warning: #000000;
+      --ds-warning-bg: #ffc600;
+      --ds-code: #000000;
+      --ds-code-bg: #fff0a3;
+      --ds-pre-bg: #193549;
+      --ds-pre-text: #fff9dc;
+      --ds-shadow: 5px 5px 0 #000000, 10px 10px 0 #ffc600;
+      --ds-radius: 0;
+      --ds-font-body: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", monospace;
+    }
+
+    .ds-theme--console-paper .ds-doc,
+    .ds-theme-stage:has(.ds-theme-switch__input[value="console-paper"]:checked) .ds-theme-target .ds-doc {
+      background-image:
+        linear-gradient(135deg, rgb(255 198 0 / 0.08) 25%, transparent 25%),
+        linear-gradient(225deg, rgb(255 198 0 / 0.08) 25%, transparent 25%),
+        linear-gradient(45deg, rgb(0 0 0 / 0.035) 25%, transparent 25%),
+        linear-gradient(315deg, rgb(0 0 0 / 0.035) 25%, var(--ds-surface) 25%);
+      background-position: 10px 0, 10px 0, 0 0, 0 0;
+      background-size: 20px 20px;
+      border-width: 2px;
+    }
+
+    .ds-theme--console-paper h1,
+    .ds-theme--console-paper h2,
+    .ds-theme--console-paper h3,
+    .ds-theme-stage:has(.ds-theme-switch__input[value="console-paper"]:checked) .ds-theme-target h1,
+    .ds-theme-stage:has(.ds-theme-switch__input[value="console-paper"]:checked) .ds-theme-target h2,
+    .ds-theme-stage:has(.ds-theme-switch__input[value="console-paper"]:checked) .ds-theme-target h3 {
+      font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+      font-weight: 400;
+    }
+
+    .ds-theme--console-paper h1,
+    .ds-theme-stage:has(.ds-theme-switch__input[value="console-paper"]:checked) .ds-theme-target h1 {
+      display: inline;
+      padding: 0 0.15em;
+      background:
+        linear-gradient(rgb(255 255 255 / 0.38), rgb(255 255 255 / 0.38)),
+        #ffc600;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+    }
+
+    .ds-theme--console-paper h2,
+    .ds-theme-stage:has(.ds-theme-switch__input[value="console-paper"]:checked) .ds-theme-target h2 {
+      border-top-width: 2px;
+      text-decoration: underline;
+      text-decoration-color: #ffc600;
+      text-decoration-thickness: 0.18em;
+      text-underline-offset: 0.08em;
+    }
+
+    .ds-theme--console-paper a,
+    .ds-theme-stage:has(.ds-theme-switch__input[value="console-paper"]:checked) .ds-theme-target a {
+      text-decoration-color: #ffc600;
+      text-decoration-thickness: 0.16em;
+    }
+
+    .ds-theme--console-paper .ds-summary,
+    .ds-theme--console-paper .ds-callout,
+    .ds-theme--console-paper .ds-toc,
+    .ds-theme--console-paper code,
+    .ds-theme--console-paper kbd,
+    .ds-theme--console-paper pre,
+    .ds-theme-stage:has(.ds-theme-switch__input[value="console-paper"]:checked) .ds-theme-target .ds-summary,
+    .ds-theme-stage:has(.ds-theme-switch__input[value="console-paper"]:checked) .ds-theme-target .ds-callout,
+    .ds-theme-stage:has(.ds-theme-switch__input[value="console-paper"]:checked) .ds-theme-target .ds-toc,
+    .ds-theme-stage:has(.ds-theme-switch__input[value="console-paper"]:checked) .ds-theme-target code,
+    .ds-theme-stage:has(.ds-theme-switch__input[value="console-paper"]:checked) .ds-theme-target kbd,
+    .ds-theme-stage:has(.ds-theme-switch__input[value="console-paper"]:checked) .ds-theme-target pre {
+      border-width: 2px;
+    }
+
+    .ds-theme--console-paper .ds-callout--warning,
+    .ds-theme-stage:has(.ds-theme-switch__input[value="console-paper"]:checked) .ds-theme-target .ds-callout--warning {
+      border-left-color: #000000;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 16px;
+      line-height: 1.5;
+      text-size-adjust: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--ds-font-body);
+      background: var(--ds-page);
+      color: var(--ds-text);
+      overflow-x: hidden;
+      overflow-wrap: break-word;
+    }
+
+    a {
+      color: var(--ds-link);
+      text-decoration-thickness: 0.08em;
+      text-underline-offset: 0.16em;
+    }
+
+    a:visited {
+      color: var(--ds-link-visited);
+    }
+
+    a:hover {
+      text-decoration-thickness: 0.14em;
+    }
+
+    a:focus-visible {
+      outline: 3px solid var(--ds-focus);
+      outline-offset: 3px;
+      border-radius: 3px;
+    }
+
+    .ds-page {
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    .ds-doc {
+      width: min(100%, 960px);
+      max-width: 100%;
+      margin: 0 auto;
+      background: var(--ds-surface);
+      border: 1px solid var(--ds-border);
+      border-radius: var(--ds-radius);
+      box-shadow: var(--ds-shadow);
+      color: var(--ds-text);
+    }
+
+    .ds-doc__header,
+    .ds-doc__body,
+    .ds-doc__footer {
+      min-width: 0;
+      padding: clamp(1.25rem, 3vw, 2.5rem);
+    }
+
+    .ds-doc__header {
+      border-bottom: 1px solid var(--ds-border);
+    }
+
+    .ds-doc__body {
+      max-width: var(--ds-measure);
+    }
+
+    .ds-doc__body--wide {
+      max-width: none;
+    }
+
+    .ds-doc__footer {
+      border-top: 1px solid var(--ds-border);
+      color: var(--ds-text-muted);
+      font-size: 0.9rem;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      margin: 0;
+      line-height: 1.18;
+      color: var(--ds-text);
+    }
+
+    h1 {
+      max-width: 14ch;
+      font-size: calc(clamp(2rem, 6vw, 3.5rem) * var(--ds-heading-scale));
+    }
+
+    h2 {
+      margin-top: 2.25rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--ds-border);
+      font-size: clamp(1.5rem, 4vw, 2rem);
+    }
+
+    h3 {
+      margin-top: 2rem;
+      font-size: 1.25rem;
+    }
+
+    h4 {
+      margin-top: 1.5rem;
+      font-size: 1rem;
+    }
+
+    p,
+    ul,
+    ol,
+    blockquote,
+    pre,
+    table {
+      margin-top: 1rem;
+      margin-bottom: 0;
+    }
+
+    ul,
+    ol {
+      padding-left: 1.5rem;
+    }
+
+    li + li {
+      margin-top: 0.35rem;
+    }
+
+    blockquote {
+      padding: 0.75rem 1rem;
+      border-left: 4px solid var(--ds-border-strong);
+      background: var(--ds-surface-muted);
+      color: var(--ds-text-muted);
+    }
+
+    code,
+    kbd {
+      font-family: var(--ds-font-mono);
+      font-size: 0.92em;
+    }
+
+    code {
+      padding: 0.12rem 0.28rem;
+      border-radius: 4px;
+      background: var(--ds-code-bg);
+      color: var(--ds-code);
+    }
+
+    kbd {
+      display: inline-block;
+      padding: 0.08rem 0.35rem;
+      border: 1px solid var(--ds-border-strong);
+      border-bottom-width: 2px;
+      border-radius: 4px;
+      background: var(--ds-surface);
+    }
+
+    pre {
+      max-width: 100%;
+      overflow-x: auto;
+      padding: 1rem;
+      border: 1px solid var(--ds-border);
+      border-radius: var(--ds-radius);
+      background: var(--ds-pre-bg);
+      color: var(--ds-pre-text);
+    }
+
+    pre code {
+      padding: 0;
+      background: transparent;
+      color: inherit;
+    }
+
+    table {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      overflow-x: auto;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+
+    caption {
+      margin-bottom: 0.5rem;
+      color: var(--ds-text-muted);
+      font-size: 0.9rem;
+      text-align: left;
+    }
+
+    th,
+    td {
+      padding: 0.65rem 0.75rem;
+      border: 1px solid var(--ds-border);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--ds-surface-muted);
+      font-weight: 700;
+    }
+
+    .ds-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+      margin: 1rem 0 0;
+      padding: 0;
+      color: var(--ds-text-muted);
+      font-size: 0.92rem;
+      list-style: none;
+    }
+
+    .ds-meta li {
+      min-width: 0;
+    }
+
+    .ds-summary {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      border: 1px solid var(--ds-border);
+      border-radius: var(--ds-radius);
+      background: var(--ds-surface-muted);
+      font-size: 1.05rem;
+    }
+
+    .ds-toc {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      border: 1px solid var(--ds-border);
+      border-radius: var(--ds-radius);
+      background: var(--ds-surface);
+    }
+
+    .ds-toc h2 {
+      margin: 0 0 0.75rem;
+      padding: 0;
+      border: 0;
+      font-size: 1rem;
+    }
+
+    .ds-toc ol {
+      margin: 0;
+    }
+
+    .ds-callout {
+      margin-top: 1.25rem;
+      padding: 1rem;
+      border: 1px solid var(--ds-border);
+      border-left-width: 4px;
+      border-radius: var(--ds-radius);
+    }
+
+    .ds-callout > :first-child {
+      margin-top: 0;
+    }
+
+    .ds-callout--info {
+      border-left-color: var(--ds-info);
+      background: var(--ds-info-bg);
+    }
+
+    .ds-callout--warning {
+      border-left-color: var(--ds-warning);
+      background: var(--ds-warning-bg);
+    }
+
+    .ds-theme-stage {
+      margin-top: 1.25rem;
+    }
+
+    .ds-theme-switch {
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+
+    .ds-theme-switch legend {
+      margin-bottom: 0.75rem;
+      color: var(--ds-text-muted);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .ds-theme-switch__options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .ds-theme-switch__option {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.4rem;
+      padding: 0.45rem 0.75rem;
+      border: 1px solid var(--ds-border);
+      border-radius: var(--ds-radius);
+      background: var(--ds-surface);
+      color: var(--ds-text);
+      cursor: pointer;
+      font-size: 0.92rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .ds-theme-switch__input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    .ds-theme-switch__option:has(.ds-theme-switch__input:checked) {
+      border-color: var(--ds-border-strong);
+      background: var(--ds-text);
+      color: var(--ds-surface);
+    }
+
+    .ds-theme-switch__option:has(.ds-theme-switch__input:focus-visible) {
+      outline: 3px solid var(--ds-focus);
+      outline-offset: 3px;
+    }
+
+    .ds-theme-target {
+      margin-top: 1rem;
+      padding: 1rem;
+      border: 1px dashed var(--ds-border);
+      border-radius: var(--ds-radius);
+      background: var(--ds-page);
+    }
+
+    .ds-theme-target .ds-doc {
+      width: 100%;
+    }
+
+    .ds-variants {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+      gap: 1rem;
+      margin-top: 1.25rem;
+    }
+
+    .ds-variant {
+      min-width: 0;
+      padding: 1rem;
+      border: 1px solid var(--ds-border);
+      border-radius: var(--ds-radius);
+      background: var(--ds-surface);
+    }
+
+    .ds-theme-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+      gap: 1.25rem;
+      margin-top: 1.25rem;
+    }
+
+    .ds-theme-preview {
+      min-width: 0;
+    }
+
+    .ds-theme-preview .ds-doc {
+      width: 100%;
+    }
+
+    .ds-theme-preview .ds-doc__header,
+    .ds-theme-preview .ds-doc__body,
+    .ds-theme-preview .ds-doc__footer {
+      padding: 1rem;
+    }
+
+    .ds-theme-preview h1 {
+      font-size: 2rem;
+    }
+
+    .ds-theme-preview h2 {
+      margin-top: 1.25rem;
+      font-size: 1.1rem;
+    }
+
+    .ds-theme-preview h3 {
+      margin-top: 1rem;
+      font-size: 1rem;
+    }
+
+    .ds-theme-preview p,
+    .ds-theme-preview ul,
+    .ds-theme-preview ol,
+    .ds-theme-preview pre,
+    .ds-theme-preview table {
+      margin-top: 0.75rem;
+    }
+
+    .ds-theme-preview .ds-summary,
+    .ds-theme-preview .ds-toc,
+    .ds-theme-preview .ds-callout {
+      margin-top: 0.85rem;
+      padding: 0.75rem;
+    }
+
+    .ds-variant > :first-child {
+      margin-top: 0;
+    }
+
+    .ds-variant h3 {
+      margin-top: 0;
+      font-size: 1rem;
+    }
+
+    .ds-variant img {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin-top: 0.75rem;
+      border-radius: calc(var(--ds-radius) - 2px);
+    }
+
+    @media (max-width: 640px) {
+      .ds-page {
+        padding: 0;
+      }
+
+      .ds-doc {
+        width: 100%;
+        border-right: 0;
+        border-left: 0;
+        border-radius: 0;
+      }
+
+      .ds-doc__header,
+      .ds-doc__body,
+      .ds-doc__footer {
+        padding: 1.25rem;
+      }
+
+      .ds-meta {
+        display: block;
+      }
+
+      .ds-meta li + li {
+        margin-top: 0.25rem;
+      }
+
+      th,
+      td {
+        padding: 0.55rem;
+      }
+    }
+
+    @media print {
+      :root {
+        --ds-page: #ffffff;
+        --ds-surface: #ffffff;
+        --ds-text: #000000;
+        --ds-text-muted: #333333;
+        --ds-border: #999999;
+        --ds-link: #000000;
+        --ds-link-visited: #000000;
+      }
+
+      body,
+      .ds-page,
+      .ds-doc {
+        background: #ffffff;
+      }
+
+      .ds-page {
+        padding: 0;
+      }
+
+      .ds-doc {
+        width: 100%;
+        border: 0;
+        box-shadow: none;
+      }
+
+      .ds-doc__header,
+      .ds-doc__body,
+      .ds-doc__footer {
+        padding: 0;
+      }
+
+      .ds-toc {
+        display: none;
+      }
+
+      a::after {
+        content: " (" attr(href) ")";
+        overflow-wrap: anywhere;
+        font-size: 0.85em;
+      }
+
+      pre,
+      table {
+        break-inside: avoid;
+      }
+    }
+    /* === END INLINED design-system-cdn.css === */
+  </style>
+
+</head>
+<body class="ds-page">
+  <article class="ds-doc">
+    <header class="ds-doc__header">
+      <h1>Tooltown project catalog</h1>
+      <ul class="ds-meta">
+        <li>Status: Initial Hugo slice implemented</li>
+        <li>Updated: 2026-07-24</li>
+        <li>Runtime: Existing Go file server</li>
+      </ul>
+      <p class="ds-summary">Build a small, accessible project directory from normalized metadata, generate listing and detail HTML offline, and check every served asset into the repository.</p>
+      <nav class="ds-toc" aria-labelledby="toc-title">
+        <h2 id="toc-title">Contents</h2>
+        <ol>
+          <li><a href="#direction">Direction</a></li>
+          <li><a href="#stages">Stages</a></li>
+          <li><a href="#contract">Build contract</a></li>
+          <li><a href="#quality">Quality and monitoring</a></li>
+          <li><a href="#decisions">Decisions needed</a></li>
+        </ol>
+      </nav>
+    </header>
+
+    <div class="ds-doc__body">
+      <section id="direction">
+        <h2>Direction</h2>
+        <p>Use the selected high-tech index: a hard-edged systems interface with switchable monochrome and cyberpunk schemes. The catalog comes before decoration; the first row should appear in a normal laptop viewport.</p>
+        <div class="ds-callout ds-callout--info"><p>The selected implementation lives in Hugo templates and <code>assets/css/high-tech.css</code>. Hugo generates the landing, tool index, detail, and about pages into <code>static/</code>; catalog cards resolve to <code>/tools/&lt;slug&gt;/</code>.</p></div>
+        <ul>
+          <li>Semantic HTML, ordinary links, no JavaScript dependency.</li>
+          <li>Responsive one-to-three-column grid with one keyboard stop per tool card and visible focus.</li>
+          <li>CSS-only catalog visuals avoid unused image assets.</li>
+          <li>Keep <code>main.go</code> unchanged: generation happens before serving.</li>
+        </ul>
+      </section>
+
+      <section id="stages">
+        <h2>Stages</h2>
+        <table>
+          <thead><tr><th>Stage</th><th>Deliverable</th><th>Exit check</th></tr></thead>
+          <tbody>
+            <tr><td>1. Visual direction</td><td>Use the selected high-tech catalog; choose real projects and metadata.</td><td>Direction verified at 320, 768, 1024, and 1440 px.</td></tr>
+            <tr><td>2. Content contract</td><td>Keep each tool's <code>tooltown.yaml</code> and assets under <code>tools/&lt;slug&gt;/</code>.</td><td>Hugo fails when required name, summary, source URL, or referenced screenshots are missing.</td></tr>
+            <tr><td>3. Catalog generator</td><td>Use Hugo v0.164.0 content adapters and templates.</td><td>Two runs are byte-identical; generated output is checked in.</td></tr>
+            <tr><td>4. Site pages</td><td>Generate landing, tool index, tool detail, and about pages.</td><td>Every catalog link resolves; missing routes remain 404.</td></tr>
+            <tr><td>5. Build integration</td><td>Build through the pinned Hugo container and fail CI on generated drift.</td><td><code>git status --porcelain -- static</code>, tests, vet, and container gates pass.</td></tr>
+            <tr><td>6. Release verification</td><td>Responsive/keyboard review, deploy, and route-level smoke checks.</td><td>Root, CSS, image, detail, and missing routes return expected status/content.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="contract">
+        <h2>Build contract</h2>
+        <pre><code>tools/&lt;slug&gt;/tooltown.yaml         # canonical tool metadata
+tools/&lt;slug&gt;/screenshots/*         # colocated catalog assets
+content/tools/_content.gotmpl      # data-to-page adapter
+layouts/                           # Hugo page templates
+assets/css/high-tech.css           # authored shared style
+scripts/build-site                 # pinned Hugo build
+static/                            # generated, checked-in output</code></pre>
+        <p>Required fields are <code>name</code>, <code>summary</code>, and HTTPS <code>source_url</code>. Tool metadata may add a tagline, Markdown description, category, status, visual treatment, language, license, platforms, features, install and usage commands, and screenshots with explicit alt text. The directory name is the canonical slug.</p>
+      </section>
+
+      <section id="quality">
+        <h2>Quality and monitoring</h2>
+        <ul>
+          <li>Build validation for required metadata, referenced assets, deterministic output, and stale-file cleanup.</li>
+          <li>Release smoke checks for generated links and served status codes.</li>
+          <li>Accessibility review: skip link, heading order, focus visibility, contrast, keyboard flow, 320 px width, missing images, and CSS-disabled reading order.</li>
+          <li>Performance: reserve image space; do not lazy-load likely above-fold images; use <code>loading="lazy"</code> only below the fold.</li>
+          <li>Primary references: <a href="https://html.spec.whatwg.org/multipage/sections.html#the-article-element">HTML Standard: article</a>, <a href="https://developer.mozilla.org/en-US/docs/Glossary/Progressive_Enhancement">MDN: progressive enhancement</a>, <a href="https://web.dev/articles/responsive-images">web.dev: responsive images</a>, and <a href="https://web.dev/articles/lazy-loading-images">web.dev: image lazy loading</a>.</li>
+        </ul>
+        <div class="ds-callout ds-callout--warning"><p><strong>Production verdict: go-with-changes.</strong> Conversation: <code>conv_1DcckZGzkp1Pmsku9RYl5u</code>.</p></div>
+        <p>A clean result does not guarantee a safe deploy. Monitoring shows current observed behavior, not untested paths, new load, timing, or uninstrumented effects.</p>
+      </section>
+
+      <section id="decisions">
+        <h2>Decisions needed</h2>
+        <ol>
+          <li>Which additional tools should join the initial <code>pwd-copy</code> entry?</li>
+          <li>Which metadata fields should become required after more tools expose common needs?</li>
+        </ol>
+      </section>
+    </div>
+    <footer class="ds-doc__footer"><p>Research used parallel codebase, product, visual, accessibility, maintainability, and primary-source web-platform reviews.</p></footer>
+  </article>
+</body>
+</html>

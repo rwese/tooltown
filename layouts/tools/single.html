@@ -1,0 +1,59 @@
+{{ define "main" }}
+  <article class="tool-detail shell">
+    <header class="detail-hero">
+      <div>
+        <p class="overline">{{ .Params.category | upper }} / {{ .Params.status | upper }}</p>
+        <h1 id="title">{{ .Title }}</h1>
+        <p class="intro">{{ .Params.tagline }}</p>
+      </div>
+      <dl class="spec-panel">
+        <div><dt>LANGUAGE</dt><dd>{{ .Params.language }}</dd></div>
+        <div><dt>PLATFORMS</dt><dd>{{ delimit .Params.platforms " / " }}</dd></div>
+        <div><dt>LICENSE</dt><dd>{{ .Params.license | default "NOT DECLARED" }}</dd></div>
+        <div><dt>SOURCE</dt><dd><a href="{{ .Params.source_url }}">GITHUB ↗</a></dd></div>
+      </dl>
+    </header>
+
+    <div class="detail-grid">
+      <section class="detail-copy" aria-labelledby="overview-title">
+        <p class="section-code">SYS.OVERVIEW</p>
+        <h2 id="overview-title">{{ .Params.summary }}</h2>
+        <div class="prose">{{ .Params.description | markdownify }}</div>
+
+        {{ with .Params.features }}
+          <h3>Capabilities</h3>
+          <ul class="feature-list">{{ range . }}<li>{{ . | markdownify }}</li>{{ end }}</ul>
+        {{ end }}
+
+        {{ with .Params.install }}
+          <h3>Install</h3>
+          <pre><code>{{ . }}</code></pre>
+        {{ end }}
+
+        {{ with .Params.usage }}
+          <h3>Usage</h3>
+          <pre><code>{{ . }}</code></pre>
+        {{ end }}
+      </section>
+
+      {{ with .Params.screenshots }}
+        <aside class="screenshots" aria-labelledby="screenshots-title">
+          <p class="section-code">SYS.CAPTURE</p>
+          <h2 id="screenshots-title">Interface</h2>
+          {{ range . }}
+            {{- $screenshot := . }}
+            {{- $path := printf "tools/%s/%s" $.Params.slug $screenshot.src }}
+            {{- with resources.Get $path }}
+              <figure>
+                <img src="{{ .RelPermalink }}" alt="{{ $screenshot.alt }}" width="1200" height="675">
+                {{ with $screenshot.caption }}<figcaption>{{ . }}</figcaption>{{ end }}
+              </figure>
+            {{- else }}
+              {{- errorf "tool screenshot not found: %s" $path }}
+            {{- end }}
+          {{ end }}
+        </aside>
+      {{ end }}
+    </div>
+  </article>
+{{ end }}

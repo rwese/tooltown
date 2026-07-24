@@ -1,6 +1,20 @@
 # Tooltown
 
-A small Go web server for experiments. It currently serves files from `static/`.
+A small Go web server for a generated project catalog. It serves files from `static/`.
+
+The catalog uses the selected high-tech interface with switchable monochrome and cyberpunk color schemes. Hugo generates the landing page, tool index, tool detail pages, and about page from checked-in templates and per-tool metadata.
+
+## Add a tool
+
+Create `tools/<slug>/tooltown.yaml` and keep screenshots or other catalog assets in the same directory. Hugo's content adapter turns each metadata file into `/tools/<slug>/` without duplicating content front matter. See `tools/pwd-copy/` for the initial entry.
+
+Generate the checked-in `static/` output with the pinned Hugo v0.164.0 container:
+
+```sh
+scripts/build-site
+```
+
+Docker is required. CI regenerates the catalog and fails when `static/` has drifted.
 
 ## Run
 

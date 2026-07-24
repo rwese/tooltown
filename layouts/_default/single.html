@@ -1,0 +1,10 @@
+{{ define "main" }}
+  <article class="document shell">
+    <header class="page-hero">
+      <p class="overline">TOOLTOWN / DOCUMENT</p>
+      <h1 id="title">{{ .Title }}</h1>
+      {{ with .Description }}<p class="intro">{{ . }}</p>{{ end }}
+    </header>
+    <div class="prose document-body">{{ .Content }}</div>
+  </article>
+{{ end }}

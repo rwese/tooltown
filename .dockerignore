@@ -2,5 +2,12 @@
 !go.mod
 !go.sum
 !*.go
-!static/
-!static/**
+!hugo.toml
+!assets/
+!assets/**
+!content/
+!content/**
+!layouts/
+!layouts/**
+!tools/
+!tools/**

@@ -1,0 +1,23 @@
+{{ define "main" }}
+  <section class="page-hero shell" aria-labelledby="title">
+    <p class="overline">COMPLETE DIRECTORY</p>
+    <h1 id="title">TOOL<br><span>INDEX</span></h1>
+    <p class="intro">{{ .Description }}</p>
+  </section>
+  <section class="catalog shell" aria-labelledby="tools-title">
+    <div class="section-head">
+      <div><span>ALL NODES</span><h2 id="tools-title">AVAILABLE SYSTEMS</h2></div>
+      <p>{{ printf "%02d" (len .RegularPages) }} ENTRIES</p>
+    </div>
+    <div class="tool-list">
+      {{ range $index, $tool := .RegularPages.ByTitle }}
+        <article class="tool-row">
+          <span>SYS_{{ printf "%03d" (add $index 1) }}</span>
+          <div><h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3><p>{{ .Params.summary }}</p></div>
+          <strong>{{ .Params.category | upper }}</strong>
+          <span aria-hidden="true">↗</span>
+        </article>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

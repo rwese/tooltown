@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-07-24
+
+### Added
+
+- A responsive, accessible project catalog using the selected high-tech monochrome/cyberpunk style.
+- Pinned Hugo templates for landing, tool index, tool detail, and about pages.
+- Per-tool `tooltown.yaml` metadata and colocated asset structure, seeded with `pwd-copy`.
+- Reproducible catalog generation with checked-in output and CI drift detection.
+
 ## [0.1.0] - 2026-07-24
 
 ### Added

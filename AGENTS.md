@@ -11,7 +11,11 @@
 
 - `main.go`: server entry point and HTTP setup.
 - `main_test.go`: HTTP behavior tests.
-- `static/`: files served directly by the server.
+- `hugo.toml`, `content/`, `layouts/`, `assets/`: Hugo configuration, pages, templates, and authored site styles.
+- `tools/<slug>/tooltown.yaml`: canonical tool metadata; keep each tool's screenshots and catalog assets beside it.
+- `scripts/build-site`: pinned Hugo container build that replaces `static/`.
+- `static/`: generated, checked-in Hugo output served directly by the server; do not edit by hand.
+- `docs/catalog-plan.html`: catalog design and implementation plan.
 - `Dockerfile`: lean production image built in multiple stages.
 - `compose.yaml`: local container workflow with live-mounted static files.
 - `compose.deploy.yaml`: production deployment from the published image.
@@ -22,9 +26,9 @@
 
 ## Development
 
-- Run with `go run .`.
+- Regenerate the catalog with `scripts/build-site`, then run with `go run .`.
 - Format changed Go files with `gofmt`.
-- Run `go test ./...` and `go vet ./...` before committing.
+- Run `go test ./...`, `go vet ./...`, and `scripts/build-site` before committing; generated `static/` must be clean.
 - Validate container changes with `docker compose config`, `docker compose -f compose.deploy.yaml config`, `hadolint Dockerfile`, and `docker build --load .`.
 - Keep `.env.dist` updated whenever environment variables are added, changed, or removed.
 - Cover behavior changes with tests.
@@ -32,6 +36,6 @@
 ## Git hygiene
 
 - Keep the working tree clean and review `git status --short` before finishing.
-- Maintain `.gitignore`: add generated files, local configuration, editor state, and build artifacts as they appear.
+- Maintain `.gitignore`: add disposable generated files, local configuration, editor state, and build artifacts as they appear. Catalog output under `static/` is intentionally generated and checked in; never ignore it.
 - Do not commit ignored artifacts, secrets, personal data, or machine-specific files.
 - Use Conventional Commits.

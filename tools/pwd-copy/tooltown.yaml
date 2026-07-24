@@ -1,0 +1,30 @@
+schema: 1
+name: pwd-copy
+tagline: Copy an absolute or relative directory path without leaving the terminal.
+summary: Put directory paths on the system clipboard from a small cross-platform Go CLI.
+description: |
+  `pwd-copy` resolves a directory path and sends it to the first supported clipboard command available on the system. It supports macOS and common Linux clipboard tools, with an environment-variable escape hatch for custom commands.
+category: utility
+status: active
+visual: signal
+language: Go
+license: Not declared
+platforms:
+  - macOS
+  - Linux
+source_url: https://github.com/rwese/pwd-copy
+features:
+  - Copies the current directory when called without arguments.
+  - Resolves a target to an absolute path.
+  - Copies a target relative to the current working directory with `-r`.
+  - Detects pbcopy, wl-copy, xclip, or xsel automatically.
+  - Accepts a custom clipboard command through PWD_COPY_CLIPBOARD_COMMAND.
+install: go install github.com/rwese/pwd-copy@a3298189d8ba57a5b68112a3b1287d59ac3204b8
+usage: |-
+  pwd-copy
+  pwd-copy .
+  pwd-copy -r ../another-directory
+screenshots:
+  - src: screenshots/usage.svg
+    alt: Terminal session showing pwd-copy commands for absolute and relative directory paths.
+    caption: The CLI supports current, target, and relative directory paths.

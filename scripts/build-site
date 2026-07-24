@@ -1,0 +1,16 @@
+#!/bin/sh
+set -eu
+
+HUGO_VERSION=0.164.0
+HUGO_DIGEST=sha256:c327b0fb159effb7e9b043851a69803acefc4dd49231f4f73cdaa5303721c4e5
+IMAGE="ghcr.io/gohugoio/hugo:v${HUGO_VERSION}@${HUGO_DIGEST}"
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+
+docker run --rm \
+  --user "$(id -u):$(id -g)" \
+  --volume "$ROOT:/project" \
+  --workdir /project \
+  --env HUGO_CACHEDIR=/tmp/hugo-cache \
+  --entrypoint /bin/sh \
+  "$IMAGE" \
+  -c 'find /project/static -mindepth 1 -delete && hugo --destination /project/static --gc --minify --noBuildLock'

@@ -4,8 +4,9 @@
 *.out
 coverage.*
 
-# Workspace-local task state
+# Workspace-local task state and generated review artifacts
 /.workspace/tasks/
+/.workspace/mockups/
 /.bluebox/
 
 # Local environment

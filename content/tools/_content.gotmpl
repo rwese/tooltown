@@ -1,0 +1,31 @@
+{{- range resources.Match "tools/*/tooltown.yaml" }}
+  {{- $metadata := . | transform.Unmarshal }}
+  {{- $slug := path.Base (path.Dir .Name) }}
+  {{- if not $metadata.name }}
+    {{- errorf "%s: name is required" .Name }}
+  {{- end }}
+  {{- if not $metadata.summary }}
+    {{- errorf "%s: summary is required" .Name }}
+  {{- end }}
+  {{- if not $metadata.source_url }}
+    {{- errorf "%s: source_url is required" .Name }}
+  {{- else if not (strings.HasPrefix $metadata.source_url "https://") }}
+    {{- errorf "%s: source_url must use HTTPS" .Name }}
+  {{- end }}
+  {{- range $metadata.screenshots }}
+    {{- if not .src }}
+      {{- errorf "%s: screenshot src is required" $slug }}
+    {{- end }}
+    {{- if not .alt }}
+      {{- errorf "%s: screenshot alt is required" $slug }}
+    {{- end }}
+  {{- end }}
+  {{- $params := merge $metadata (dict "slug" $slug) }}
+  {{- $page := dict
+    "kind" "page"
+    "params" $params
+    "path" $slug
+    "title" $metadata.name
+  }}
+  {{- $.AddPage $page }}
+{{- end }}

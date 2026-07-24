@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="{{ replace site.Language.Locale "_" "-" }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {{- $description := .Description | default site.Params.description }}
+    <meta name="description" content="{{ $description }}">
+    <title>{{ if .IsHome }}{{ site.Title }} — High-Tech Index{{ else }}{{ .Title }} — {{ site.Title }}{{ end }}</title>
+    {{- $css := resources.Get "css/high-tech.css" | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="topbar shell">
+      <a class="brand" href="{{ site.Home.RelPermalink }}"><span aria-hidden="true">TT://</span> TOOLTOWN</a>
+      <nav class="primary-nav" aria-label="Primary navigation">
+        <a href="{{ site.Home.RelPermalink }}">Index</a>
+        <a href="{{ relURL "tools/" }}">Tools</a>
+        <a href="{{ relURL "about/" }}">About</a>
+      </nav>
+      <fieldset class="scheme-picker">
+        <legend>Color scheme</legend>
+        <label for="scheme-mono">
+          <input id="scheme-mono" name="scheme" type="radio" checked>
+          <span aria-hidden="true">01</span> MONO
+        </label>
+        <label for="scheme-cyber">
+          <input id="scheme-cyber" name="scheme" type="radio">
+          <span aria-hidden="true">02</span> CYBER
+        </label>
+      </fieldset>
+    </header>
+
+    <main id="main">
+      {{ block "main" . }}{{ end }}
+    </main>
+
+    <footer class="footer shell">
+      <span>TOOLTOWN / STATIC PROJECT NETWORK</span>
+      <span>BUILT WITH HUGO / NO SCRIPT REQUIRED</span>
+    </footer>
+  </body>
+</html>

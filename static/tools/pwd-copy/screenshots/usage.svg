@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">pwd-copy terminal usage</title>
+  <desc id="desc">A dark terminal showing pwd-copy commands for current, target, and relative paths.</desc>
+  <rect width="1200" height="675" fill="#06070a"/>
+  <rect x="45" y="45" width="1110" height="585" fill="#101118" stroke="#f5f7ff" stroke-width="4"/>
+  <rect x="45" y="45" width="1110" height="58" fill="#f5f7ff"/>
+  <circle cx="82" cy="74" r="10" fill="#ff2bd6"/>
+  <circle cx="116" cy="74" r="10" fill="#d7ff00"/>
+  <circle cx="150" cy="74" r="10" fill="#00e7ff"/>
+  <text x="600" y="82" fill="#06070a" font-family="ui-monospace, monospace" font-size="22" font-weight="700" text-anchor="middle">PWD-COPY // SESSION</text>
+  <g font-family="ui-monospace, monospace" font-size="30">
+    <text x="90" y="175" fill="#d7ff00">$</text>
+    <text x="125" y="175" fill="#f5f7ff">pwd-copy</text>
+    <text x="90" y="230" fill="#a9aec2">/Users/operator/projects/tooltown</text>
+    <text x="90" y="315" fill="#d7ff00">$</text>
+    <text x="125" y="315" fill="#f5f7ff">pwd-copy ./tools/pwd-copy</text>
+    <text x="90" y="370" fill="#a9aec2">/Users/operator/projects/tooltown/tools/pwd-copy</text>
+    <text x="90" y="455" fill="#d7ff00">$</text>
+    <text x="125" y="455" fill="#f5f7ff">pwd-copy -r ../archive</text>
+    <text x="90" y="510" fill="#a9aec2">../archive</text>
+  </g>
+  <rect x="90" y="555" width="1020" height="2" fill="#5d6478"/>
+  <text x="90" y="595" fill="#ff2bd6" font-family="ui-monospace, monospace" font-size="20" font-weight="700">CLIPBOARD STATUS: READY</text>
+</svg>

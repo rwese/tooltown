@@ -1,0 +1,51 @@
+{{ define "main" }}
+  {{- $tools := site.GetPage "/tools" }}
+  <section class="hero shell" aria-labelledby="title">
+    <div class="hero-copy">
+      <p class="overline">INDEPENDENT SYSTEMS / LIVE INDEX</p>
+      <h1 id="title">TOOLS<br><span>INDEX</span></h1>
+      <p class="intro">{{ site.Params.description }}</p>
+    </div>
+    <div class="interface" aria-hidden="true">
+      <div class="interface-head">
+        <span>SYS.MAP</span><span>{{ printf "%02d" (len $tools.RegularPages) }} NODES</span>
+      </div>
+      <div class="radar"><i></i><i></i><i></i><b></b></div>
+      <div class="readout">
+        <span>STATUS</span><strong>READY</strong><span>LATENCY</span><strong>STATIC</strong>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="catalog shell" aria-labelledby="projects-title">
+    <div class="section-head">
+      <div>
+        <span>DIRECTORY</span>
+        <h2 id="projects-title">SELECT A SYSTEM</h2>
+      </div>
+      <p>{{ printf "%02d" (len $tools.RegularPages) }} ENTRIES // GENERATED SNAPSHOT</p>
+    </div>
+    <div class="grid">
+      {{ range $index, $tool := $tools.RegularPages.ByTitle }}
+        <article class="card">
+          <div class="visual {{ .Params.visual | default "signal" }}" aria-hidden="true">
+            {{ if eq (.Params.visual | default "signal") "signal" }}
+              <span class="axis axis-x"></span><span class="axis axis-y"></span><i></i><b></b>
+            {{ else if eq .Params.visual "pocket" }}
+              <span>01</span><span>10</span><span>11</span><i></i><b></b>
+            {{ else }}
+              <span></span><span></span><span></span><i></i>
+            {{ end }}
+            <em>{{ .Params.category | upper }}</em>
+          </div>
+          <div class="card-head"><span>SYS_{{ printf "%03d" (add $index 1) }}</span><span>{{ .Params.category | upper }}</span></div>
+          <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+          <p>{{ .Params.summary }}</p>
+          <div class="card-foot"><span>OPEN DETAIL NODE</span><span aria-hidden="true">↗</span></div>
+        </article>
+      {{ else }}
+        <p class="empty-state">NO SYSTEMS REGISTERED</p>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}
