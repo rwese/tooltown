@@ -54,7 +54,7 @@ docker run --rm -p 8080:8080 ghcr.io/rwese/tooltown:latest
 
 After a successful `main` build, GitHub Actions deploys on the runner labeled `apps-deploy`. It installs `compose.deploy.yaml` as `/var/lib/apps/tooltown/compose.yaml`, creates `.env` from `.env.dist` only when absent, then pulls and starts the latest image.
 
-The deployment runner requires Docker Compose and passwordless `sudo` for creating `/var/lib/apps/tooltown`. Subsequent deployments preserve its local `.env`.
+The deployment runner requires Docker Compose and write access to `/var/lib/apps`. Subsequent deployments preserve its local `.env`.
 
 ## Test
 
