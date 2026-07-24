@@ -3,12 +3,13 @@
 FROM golang:1.26.5-alpine3.23@sha256:622e56dbc11a8cfe87cafa2331e9a201877271cbff918af53d3be315f3da88cc AS builder
 WORKDIR /src
 
-COPY go.mod ./
+COPY go.* ./
 RUN --mount=type=cache,target=/go/pkg/mod \
     go mod download
 
 COPY *.go ./
-RUN --mount=type=cache,target=/root/.cache/go-build \
+RUN --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=cache,target=/root/.cache/go-build \
     CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags="-s -w" -o /tooltown .
 
 FROM scratch AS runtime
