@@ -2,7 +2,7 @@
 set -eu
 
 HUGO_VERSION=0.164.0
-HUGO_DIGEST=sha256:c327b0fb159effb7e9b043851a69803acefc4dd49231f4f73cdaa5303721c4e5
+HUGO_DIGEST=sha256:f8671f2299e60154536c158bff8ce27f6eef4dddbbfc73bcce66263276ae0f80
 IMAGE="ghcr.io/gohugoio/hugo:v${HUGO_VERSION}@${HUGO_DIGEST}"
 ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 

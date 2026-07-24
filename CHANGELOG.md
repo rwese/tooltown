@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-07-24
+
+### Fixed
+
+- Use Hugo's pinned multi-platform image index so catalog generation runs on both AMD64 CI and ARM64 development hosts.
+
 ## [0.3.0] - 2026-07-24
 
 ### Added

@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.7@sha256:a57df69d0ea827fb7266491f2813635de6f17269be881f696fbfdf2d83dda33e
 
-FROM ghcr.io/gohugoio/hugo:v0.164.0@sha256:c327b0fb159effb7e9b043851a69803acefc4dd49231f4f73cdaa5303721c4e5 AS site-builder
+FROM ghcr.io/gohugoio/hugo:v0.164.0@sha256:f8671f2299e60154536c158bff8ce27f6eef4dddbbfc73bcce66263276ae0f80 AS site-builder
 WORKDIR /src
 COPY hugo.toml ./
 COPY assets ./assets
