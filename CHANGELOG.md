@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-07-24
+
 ### Added
 
 - A Go web server that serves files from the `static/` directory.
@@ -14,3 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - A GitHub Actions workflow that tests `main`, then builds and publishes its image to GHCR as `latest`.
 - A distributable environment template for local Compose configuration.
 - Self-hosted CI and automatic deployment of successful `main` builds to `/var/lib/apps/tooltown`.
+
+### Changed
+
+- Made production image, routing, port, restart, management, and update settings configurable through the deployment environment.
