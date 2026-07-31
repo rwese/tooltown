@@ -1,0 +1,29 @@
+schema: 1
+name: pdf-decrypt
+tagline: Bulk-remove known passwords from PDFs without re-rendering their contents.
+summary: Recover PDFs you own or are authorized to access by trying a small set of candidate passwords.
+description: |
+  `pdf-decrypt` decrypts individual files, file lists, or directory trees with passwords you already know. It uses pikepdf and qpdf to preserve forms, annotations, attachments, and metadata instead of re-rendering pages, and writes outputs atomically so failed attempts leave no partial files.
+category: utility
+status: active
+visual: drift
+language: Python
+license: MIT License
+platforms:
+  - Linux
+  - macOS
+  - Windows
+source_url: https://github.com/rwese/pdf-decrypt
+features:
+  - Processes one PDF, multiple positional files, file lists, or complete directory trees.
+  - Tries candidate passwords in parallel with a configurable worker count.
+  - Reads passwords from a file to keep them out of shell history.
+  - Preserves PDF structure through pikepdf and qpdf instead of re-rendering pages.
+  - Supports atomic in-place replacement and leaves no partial output after a failed decrypt.
+  - Copies unencrypted PDFs as-is and skips existing outputs unless overwrite is requested.
+install: uv tool install git+https://github.com/rwese/pdf-decrypt@52ab7e3feec856d4eb1bdcb0ddc860179b483a2b
+usage: |-
+  pdf-decrypt encrypted.pdf -p 'first-guess'
+  pdf-decrypt a.pdf b.pdf -p 'first-guess'
+  pdf-decrypt -i ./encrypted/ -o ./decrypted/ --password-file passwords.txt
+  pdf-decrypt encrypted.pdf --in-place -p 'first-guess'

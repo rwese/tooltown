@@ -285,6 +285,14 @@ h2 {
   background: var(--surface);
   box-shadow: 7px 7px 0 var(--shadow);
 }
+.card-link {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  color: inherit;
+  text-decoration: none;
+}
 .card::before {
   content: "";
   position: absolute;
@@ -429,7 +437,7 @@ h2 {
   font-size: 2rem;
   letter-spacing: -0.06em;
 }
-.card > p {
+.card p {
   min-height: 4.5rem;
   margin: 0 0.9rem 1.2rem;
   color: var(--muted);
@@ -443,6 +451,22 @@ h2 {
   color: var(--hot);
   font-size: 0.68rem;
   font-weight: 900;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+.card-link:hover .card-foot,
+.card-link:focus-visible .card-foot {
+  background: var(--hot);
+  color: var(--inverse);
+}
+.card-link:hover .card-foot span:last-child,
+.card-link:focus-visible .card-foot span:last-child {
+  transform: translateX(3px);
+}
+.card-foot span:last-child {
+  display: inline-block;
+  transition: transform 0.15s ease;
 }
 .footer {
   display: flex;
@@ -469,7 +493,7 @@ h2 {
   .grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  .card > p {
+  .card p {
     min-height: auto;
   }
 }
@@ -524,11 +548,9 @@ h2 {
   text-decoration: none;
 }
 .primary-nav a:hover,
-.card h3 a:hover,
 .tool-row h3 a:hover {
   color: var(--hot);
 }
-.card h3 a,
 .tool-row h3 a {
   text-decoration-thickness: 2px;
   text-underline-offset: 0.18em;
