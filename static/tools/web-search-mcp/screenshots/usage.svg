@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">web-search-mcp terminal usage</title>
+  <desc id="desc">A dark terminal showing web-search queries, category filters, and a saved session re-read.</desc>
+  <rect width="1200" height="675" fill="#06070a"/>
+  <rect x="45" y="45" width="1110" height="585" fill="#101118" stroke="#f5f7ff" stroke-width="4"/>
+  <rect x="45" y="45" width="1110" height="58" fill="#f5f7ff"/>
+  <circle cx="82" cy="74" r="10" fill="#ff2bd6"/>
+  <circle cx="116" cy="74" r="10" fill="#d7ff00"/>
+  <circle cx="150" cy="74" r="10" fill="#00e7ff"/>
+  <text x="600" y="82" fill="#06070a" font-family="ui-monospace, monospace" font-size="22" font-weight="700" text-anchor="middle">WEB-SEARCH-MCP // SESSION</text>
+  <g font-family="ui-monospace, monospace" font-size="28">
+    <text x="90" y="165" fill="#d7ff00">$</text>
+    <text x="125" y="165" fill="#f5f7ff">web-search "what is kubernetes"</text>
+    <text x="90" y="212" fill="#a9aec2">**Session:** cc6a54d5-what-is-kubernetes</text>
+    <text x="90" y="252" fill="#00e7ff">1. Overview - Kubernetes</text>
+    <text x="90" y="292" fill="#a9aec2">   https://kubernetes.io/docs/concepts/overview/</text>
+    <text x="90" y="332" fill="#a9aec2">   Kubernetes is a portable, extensible, open source platform for</text>
+    <text x="90" y="372" fill="#a9aec2">   managing containerized workloads and services...</text>
+    <text x="90" y="440" fill="#d7ff00">$</text>
+    <text x="125" y="440" fill="#f5f7ff">web-search "fusion breakthrough" --categories news --time-range day</text>
+    <text x="90" y="487" fill="#a9aec2">**Session:** 9be21cc4-fusion-breakthrough</text>
+  </g>
+  <rect x="90" y="555" width="1020" height="2" fill="#5d6478"/>
+  <text x="90" y="595" fill="#ff2bd6" font-family="ui-monospace, monospace" font-size="20" font-weight="700">SEARXNG STATUS: READY · 86 ENGINES</text>
+</svg>

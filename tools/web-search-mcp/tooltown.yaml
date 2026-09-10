@@ -1,0 +1,33 @@
+schema: 1
+name: web-search-mcp
+tagline: Search the web through your own SearXNG instance from a CLI, an MCP server, or pi.
+summary: An agent-agnostic web search core backed by SearXNG, with every search saved as a reusable session on disk.
+description: |
+  `web-search-mcp` exposes a single SearXNG-backed search core behind three surfaces: a CLI, a Model Context Protocol server, and a pi extension. Every search is persisted as an immutable session on disk and can be re-read later from any surface. An optional OpenAI-compatible LLM turns a plain query into a planned, multi-query, AI-synthesized answer with numbered source citations.
+category: utility
+status: active
+visual: pocket
+language: TypeScript
+license: MIT License
+platforms:
+  - Linux
+  - macOS
+  - Windows
+source_url: https://github.com/rwese/web-search-mcp
+features:
+  - Searches through your own SearXNG instance with category, engine, language, time-range, and safesearch filters.
+  - Saves every search as an immutable session on disk, re-readable from the CLI, MCP, or pi.
+  - Speaks Model Context Protocol over stdio or streamable HTTP so AI agents can call the same search core.
+  - Synthesizes cited AI answers with `--use-ai` when an OpenAI-compatible endpoint is configured.
+  - Validates the full setup with `--doctor`, including a live probe search.
+install: npm install -g @rwese/web-search-mcp@0.6.0
+usage: |-
+  export SEARXNG_URL=https://search.example.com
+  web-search "what is kubernetes"
+  web-search "fusion breakthrough" --categories news --time-range day
+  web-search --session cc6a54d5-what-is-kubernetes --json
+  web-search --doctor
+screenshots:
+  - src: screenshots/usage.svg
+    alt: Dark terminal session showing web-search queries with category filters and a saved session re-read.
+    caption: The CLI filters, re-reads sessions, and validates the SearXNG setup.
