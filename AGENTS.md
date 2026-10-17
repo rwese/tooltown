@@ -20,6 +20,7 @@
 - `compose.yaml`: local container workflow with live-mounted static files.
 - `compose.deploy.yaml`: production deployment from the published image.
 - `.env.dist`: committed template for every supported environment variable.
+- `.agents/skills/`: project skills, `tooltown` (catalog maintenance) and `tooltown-adopt` (project readiness and preparation).
 - `.github/workflows/container.yaml`: tests changes and publishes successful `main` images on the `severed` runner.
 - `.github/workflows/deploy.yaml`: deploys successful builds on the `apps-deploy` runner.
 - `.workspace/tasks/`: optional, ignored scratch state for active work; delete completed task files.

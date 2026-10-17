@@ -29,11 +29,10 @@ The slug becomes both the directory name and the URL path
 
 ## Pre-flight checks
 
-- **Slug is unique.** `ls tools/ | grep '^<slug>$'` should be empty.
-- **Repo is public.** A private repo URL in the public catalog leaks
-  its existence, language, license, and default-branch SHA. Make it
-  public first.
-- **Repo exists and is reachable.** `gh repo view <owner>/<repo>`.
+- **Project is ready.** Public repo, declared license, pinned and verified
+  install, README substance — the `tooltown-adopt` skill owns those. Run it
+  first; fix unmet prerequisites there before writing this entry.
+- **Slug is unique.** `ls tools/` shows no directory named `<slug>`.
 
 ## Schema
 

@@ -1,6 +1,6 @@
 ---
 name: tooltown
-description: "Catalog maintenance for the Tooltown project (rwese/tooltown) — a Go web server that serves a Hugo-generated catalog of small CLI tools. Use when: (1) adding a new tool, (2) editing an existing tool's metadata or screenshots, (3) regenerating the served `static/` output, (4) debugging Hugo, Go, or container builds, (5) understanding the deploy or telemetry pipeline."
+description: "Catalog maintenance for the Tooltown project (rwese/tooltown) — a Go web server that serves a Hugo-generated catalog of small CLI tools. Use when: (1) writing or updating a catalog entry, (2) regenerating the served `static/` output, (3) debugging Hugo, Go, or container builds, (4) understanding the deploy or telemetry pipeline."
 license: MIT
 ---
 
@@ -34,6 +34,7 @@ AGENTS.md                                        # project conventions and quali
 
 | Task                         | Where to look                                        |
 | ---------------------------- | ---------------------------------------------------- |
+| Adopt a project into the catalog | `../tooltown-adopt/SKILL.md` (readiness, then hand off here) |
 | Add a new tool               | `references/new_tool.md`                             |
 | Edit existing tool metadata  | `references/new_tool.md` (same schema, same flow)    |
 | Refresh metadata from GitHub | Planned (`scripts/fetch-tool` + `.github/workflows/refresh.yaml`); until shipped, edit YAML by hand |
