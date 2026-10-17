@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">pwport terminal usage</title>
+  <desc id="desc">A dark terminal where pwport reports that the y and dollar sign of a sample password sit on different keys in the German and French layouts, and that the string is therefore not portable.</desc>
+  <rect width="1200" height="675" fill="#06070a"/>
+  <rect x="45" y="45" width="1110" height="585" fill="#101118" stroke="#f5f7ff" stroke-width="4"/>
+  <rect x="45" y="45" width="1110" height="58" fill="#f5f7ff"/>
+  <circle cx="82" cy="74" r="10" fill="#ff2bd6"/>
+  <circle cx="116" cy="74" r="10" fill="#d7ff00"/>
+  <circle cx="150" cy="74" r="10" fill="#00e7ff"/>
+  <text x="600" y="82" fill="#06070a" font-family="ui-monospace, monospace" font-size="22" font-weight="700" text-anchor="middle">PWPORT // SESSION</text>
+  <g font-family="ui-monospace, monospace" font-size="22">
+    <text x="90" y="150" fill="#d7ff00">$</text>
+    <text x="120" y="150" fill="#f5f7ff">printf 'Victory$' | pwport --stdin --show</text>
+    <text x="90" y="190" fill="#a9aec2">pwport report — source: stdin</text>
+    <text x="90" y="230" fill="#7c829a">layouts (direct = typeable without AltGr/dead keys): us en-US QWERTY (ANSI),</text>
+    <text x="90" y="270" fill="#7c829a">uk en-GB QWERTY (ISO), de de-DE QWERTZ (ISO), fr fr-FR AZERTY (ISO)</text>
+    <text x="90" y="310" fill="#a9aec2">length: 8 chars (positions are 1-based code points)</text>
+    <text x="90" y="350" fill="#00e7ff">ok: 6 · warn: 0 · move: 2 · fail: 0</text>
+    <text x="90" y="390" fill="#ff2bd6">  MOVE pos    7  moves between keys on: de (swaps with 'z')  char: 'y'</text>
+    <text x="90" y="430" fill="#ff2bd6">  MOVE pos    8  moves between keys on: fr  char: '$'</text>
+    <text x="90" y="470" fill="#ff2bd6">verdict: FAIL — characters sit on a different key or level across the</text>
+    <text x="90" y="510" fill="#ff2bd6">selected layouts</text>
+  </g>
+  <rect x="90" y="560" width="1020" height="2" fill="#5d6478"/>
+  <text x="90" y="600" fill="#ff2bd6" font-family="ui-monospace, monospace" font-size="20" font-weight="700">VERDICT: FAIL · EXIT 2 · --POSITIONS WARN SOFTENS IT TO A WARNING</text>
+</svg>

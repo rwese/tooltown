@@ -1,4 +1,9 @@
 {{ define "main" }}
+  {{- $host := "" }}
+  {{- with urls.Parse .Params.source_url }}{{ $host = .Hostname }}{{ end }}
+  {{- $source := $host | upper | default "SOURCE" }}
+  {{- if eq $host "github.com" }}{{ $source = "GITHUB" }}{{ end }}
+  {{- if eq $host "git.void.cold.at" }}{{ $source = "FORGEJO" }}{{ end }}
   <article class="tool-detail shell">
     <header class="detail-hero">
       <div class="text-block">
@@ -10,7 +15,7 @@
         <div><dt>LANGUAGE</dt><dd>{{ .Params.language }}</dd></div>
         <div><dt>PLATFORMS</dt><dd>{{ delimit .Params.platforms " / " }}</dd></div>
         <div><dt>LICENSE</dt><dd>{{ .Params.license | default "NOT DECLARED" }}</dd></div>
-        <div><dt>SOURCE</dt><dd><a href="{{ .Params.source_url }}">GITHUB ↗</a></dd></div>
+        <div><dt>SOURCE</dt><dd><a href="{{ .Params.source_url }}">{{ $source }} ↗</a></dd></div>
       </dl>
     </header>
 

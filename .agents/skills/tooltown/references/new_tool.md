@@ -44,7 +44,7 @@ The slug becomes both the directory name and the URL path
 | ------------ | ------------------------------------------------------ |
 | `name`       | Matches the slug and the URL path.                     |
 | `summary`    | Short tagline shown on the detail page (`<h2>`). Hugo fails to build without it. |
-| `source_url` | Public URL to the project's homepage (usually GitHub). |
+| `source_url` | Public HTTPS URL to the project's homepage (GitHub or Forgejo). The detail page labels the link from the URL host: `GITHUB`, `FORGEJO`, or the uppercase hostname. |
 
 ### Optional fields
 
@@ -82,7 +82,7 @@ Hugo validates that each `src` resolves while generating `static/`.
 `tools/pwd-copy/tooltown.yaml` is the canonical seed entry. Copy it as
 a starting point, then trim and adapt.
 
-## Generating required fields from a GitHub repo
+## Generating required fields from the project's host
 
 When the source repo is on GitHub, fetch what you can before writing by
 hand:
@@ -102,18 +102,31 @@ gh api graphql -F owner=<owner> -F name=<repo> -f query='
 gh api repos/<owner>/<repo>/readme --jq '.content' | base64 -d
 ```
 
+On Forgejo (see `~/.agents/references/forgejo.md`):
+
+```sh
+TOKEN=$(gopass show forgejo/ai-factory-token)
+curl -s -H "Authorization: token $TOKEN" \
+  "https://git.void.cold.at/api/v1/repos/<owner>/<repo>" \
+  | jq '{full_name, description, language, license, html_url, default_branch}'
+curl -s -H "Authorization: token $TOKEN" \
+  "https://git.void.cold.at/api/v1/repos/<owner>/<repo>/raw/README.md"
+git ls-remote "ssh://git@git.void.cold.at:3022/<owner>/<repo>.git" refs/heads/main
+```
+
 Map into YAML:
 
-- `name` ← `nameWithOwner` (strip `<owner>/`)
-- `source_url` ← `url`
-- `language` ← `primaryLanguage.name`
-- `license` ← `licenseInfo.name`
-- `install` SHA ← `defaultBranchRef.target.oid` (only when the install
-  form is `go install <module>@<sha>`)
+- `name` ← `nameWithOwner` (strip `<owner>/`), or `full_name` on Forgejo
+- `source_url` ← `url` on GitHub, `html_url` on Forgejo
+- `language` ← `primaryLanguage.name`, or `language`
+- `license` ← `licenseInfo.name`, or Forgejo's `license.name`
+- `install` SHA ← `defaultBranchRef.target.oid` on GitHub, or the commit you
+  pin from `git ls-remote` on Forgejo (only when the install form is
+  `go install <module>@<sha>`, `cargo install --git … --rev <sha>`, or similar)
 - `description`, `tagline`, `summary`, `features`, `usage` — pull from
-  the README; the GitHub `description` is often empty or too short.
+  the README; the host `description` is often empty or too short.
 
-Editorial fields that must come from a human, never from GitHub:
+Editorial fields that must come from a human, never from the host API:
 `tagline`, `summary`, `category`, `visual`, `status`, `platforms`,
 `features`, `usage`, `screenshots`.
 
@@ -127,6 +140,8 @@ Before committing:
 - [ ] `go vet ./...` is clean.
 - [ ] The new page renders at `/tools/<slug>/index.html` with title and
       summary populated (spot-check the generated HTML).
+- [ ] The SOURCE link on that page is labelled from `source_url`'s host
+      (`GITHUB`, `FORGEJO`, or the uppercase hostname).
 
 ## Common pitfalls
 

@@ -1,0 +1,34 @@
+schema: 1
+name: pwport
+tagline: Check a password is typeable on every keyboard layout you actually use.
+summary: Report which characters of a secret move between keys or levels across keyboard layouts, before another keyboard locks you out.
+description: |
+  `pwport` calls a string portable only when every character sits on the same key *and* the same level in all selected layouts, so a touch-typist can enter it on any of them without relearning it. Each layout is a key table of level 1 (base) and level 2 (`Shift`) characters taken from XKB `pc` plus `us`, `gb`, `de`, and `fr`, and every character is classified `ok`, `MOVE`, `WARN`, or `FAIL` at its 1-based code-point position.
+
+  Reports name positions and reasons and never the input: `--show` is the only path that reveals problem characters, `--json` escapes every character as `\uXXXX`, and secrets passed as command-line arguments are refused. Interactive input is read with terminal echo disabled from the moment the session starts, and anything that cannot be handled safely exits `3` rather than falling back to echoing input.
+category: utility
+status: active
+visual: signal
+language: Rust
+license: MIT License
+platforms:
+  - Linux
+  - macOS
+source_url: https://git.void.cold.at/ai-factory/pwport
+features:
+  - Keeps a character only when it sits on the same key and level in every selected layout, catching the QWERTY/QWERTZ `y`↔`z` and AZERTY `a`↔`q` traps.
+  - Classifies every character as `ok`, `MOVE`, `WARN` (needs AltGr or a dead key), or `FAIL`, with a 1-based code-point position.
+  - Selects the layouts with `--layouts` and softens key or level changes with `--positions fail|warn|off`.
+  - Prints the character set typeable everywhere on the same key and level with `--alphabet`.
+  - Reads interactive input with echo disabled from session start, from a file, or from stdin, and refuses secrets passed as arguments.
+  - Emits machine-readable `--json` reports with every character escaped as `\uXXXX`.
+install: cargo install --git https://git.void.cold.at/ai-factory/pwport --rev a4f3942701e4a6cfed71f57fa1cac84d28aabfe0 --locked
+usage: |-
+  printf 'Victory$' | pwport --stdin --show
+  pwport --layouts de,us --file pw.txt
+  printf 'desktop' | pwport --stdin
+  pwport --alphabet
+screenshots:
+  - src: screenshots/usage.svg
+    alt: Terminal session where pwport reports that the y and dollar sign of a sample password sit on different keys in the German and French layouts.
+    caption: A string can be typeable everywhere and still fail portability — here `y` and `$` sit on different keys in German and French.

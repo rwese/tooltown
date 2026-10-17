@@ -224,3 +224,29 @@ func TestStaticFiles(t *testing.T) {
 		}
 	})
 }
+
+// TestCatalogSourceLabels pins the source link label Hugo renders from
+// source_url's host. The label is not Go code, so this checks the generated
+// catalog that the server actually serves: a template or metadata change that
+// drops or mislabels the link fails here.
+func TestCatalogSourceLabels(t *testing.T) {
+	tests := []struct {
+		slug string
+		want string
+	}{
+		{slug: "pwport", want: "FORGEJO"},
+		{slug: "pwd-copy", want: "GITHUB"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.slug, func(t *testing.T) {
+			page, err := os.ReadFile(filepath.Join("static", "tools", tt.slug, "index.html"))
+			if err != nil {
+				t.Fatalf("read catalog page: %v", err)
+			}
+			if !strings.Contains(string(page), tt.want+" ↗") {
+				t.Errorf("catalog page for %s does not label its source %q", tt.slug, tt.want)
+			}
+		})
+	}
+}
