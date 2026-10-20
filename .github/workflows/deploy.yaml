@@ -43,8 +43,8 @@ jobs:
 
       - name: Install deployment configuration
         env:
-          OTEL_EXPORTER_OTLP_ENDPOINT: ${{ secrets.OTEL_EXPORTER_OTLP_ENDPOINT }}
-          OTEL_EXPORTER_OTLP_HEADERS: ${{ secrets.OTEL_EXPORTER_OTLP_HEADERS }}
+          # Non-secret: the self-hosted OpenTelemetry Collector on Severed.
+          OTEL_EXPORTER_OTLP_ENDPOINT: https://otelcol.void.cold.at
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
         run: |
           install -d -m 0755 "$DEPLOY_DIR"
@@ -53,26 +53,24 @@ jobs:
             install -m 0600 .env.dist "$DEPLOY_DIR/.env"
           fi
 
-          for name in OTEL_EXPORTER_OTLP_ENDPOINT OTEL_EXPORTER_OTLP_HEADERS SENTRY_DSN; do
-            value=${!name}
-            if [ -z "$value" ]; then
-              echo "$name secret is empty" >&2
-              exit 1
-            fi
-            case "$value" in
-              *'"'*|*'\'*|*'$'*|*$'\n'*|*$'\r'*)
-                echo "$name secret contains unsupported dotenv characters" >&2
-                exit 1
-                ;;
-            esac
-          done
+          if [ -z "$SENTRY_DSN" ]; then
+            echo "SENTRY_DSN secret is empty" >&2
+            exit 1
+          fi
+          # Allowlist the characters a Sentry DSN may contain so the value can
+          # never break the generated dotenv file.
+          if ! printf '%s' "$SENTRY_DSN" | grep -qxE '[A-Za-z0-9:/_.@?&=+-]+'; then
+            echo "SENTRY_DSN secret contains unsupported dotenv characters" >&2
+            exit 1
+          fi
 
           env_file=$(mktemp "$DEPLOY_DIR/.env.XXXXXX")
           trap 'rm -f "$env_file"' EXIT
           {
+            # Drop legacy Dynatrace endpoint and authorization header lines so a
+            # previously seeded .env cannot keep exporting to the vendor.
             grep -v -E '^(OTEL_EXPORTER_OTLP_(ENDPOINT|HEADERS)|SENTRY_DSN)=' "$DEPLOY_DIR/.env" || true
             printf 'OTEL_EXPORTER_OTLP_ENDPOINT="%s"\n' "$OTEL_EXPORTER_OTLP_ENDPOINT"
-            printf 'OTEL_EXPORTER_OTLP_HEADERS="%s"\n' "$OTEL_EXPORTER_OTLP_HEADERS"
             printf 'SENTRY_DSN="%s"\n' "$SENTRY_DSN"
           } > "$env_file"
           chmod 0600 "$env_file"

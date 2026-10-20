@@ -43,17 +43,20 @@ TOOLTOWN_PORT=8081 docker compose up --build
 
 Stop it with `docker compose down`.
 
-## OpenTelemetry and Bluebox
+## OpenTelemetry
 
 The Go service exports request traces, existing application logs, HTTP/runtime metrics, and W3C trace context over OTLP/HTTP. The log exporter preserves standard-log output and timestamps and carries trace context when a log is emitted from a traced context; the current static-file handler emits no request logs. Telemetry stays disabled when `OTEL_EXPORTER_OTLP_ENDPOINT` is empty.
 
-For local Compose, copy `.env.dist` to `.env`, then:
+All telemetry goes to the self-hosted OpenTelemetry Collector on Severed at `https://otelcol.void.cold.at`. The collector owns routing, so this service has no vendor endpoint, no ingest token, and no direct egress: traces fan out to Tempo, metrics are scraped through the collector's Prometheus exporter, and logs land in Loki. The route is Tailscale-only behind Traefik's `internal-ipwhitelist` middleware and the collector's OTLP receivers accept unauthenticated traffic, so keep the endpoint on the Tailscale path.
 
-1. Copy `OTEL_EXPORTER_OTLP_ENDPOINT` from `.env.otel.bluebox-template`.
-2. Open Bluebox **Setup**, use **Reveal token**, and set the exact displayed value in `OTEL_EXPORTER_OTLP_HEADERS`. Keep the dotenv value quoted because it contains a space; never commit it.
-3. Set `OTEL_RESOURCE_ATTRIBUTES=service.namespace=rwese,deployment.environment=development`.
+For local Compose, copy `.env.dist` to `.env` and adjust as needed:
 
-Production deployment reads `OTEL_EXPORTER_OTLP_ENDPOINT` and `OTEL_EXPORTER_OTLP_HEADERS` from secrets in the `tooldown.void.cold.at` GitHub environment and syncs them into `/var/lib/apps/tooltown/.env`; use `deployment.environment=production`. Metrics must keep `OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE=delta`; Bluebox rejects cumulative metrics.
+1. Leave `OTEL_EXPORTER_OTLP_ENDPOINT` at the collector URL, or set it to a local collector for experiments; an empty value disables telemetry.
+2. Set `OTEL_RESOURCE_ATTRIBUTES=service.namespace=rwese,deployment.environment=development`.
+
+The collector converts delta temporality, so `OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE=delta` stays required by the Go service.
+
+Production deployment rewrites `OTEL_EXPORTER_OTLP_ENDPOINT` to the collector URL from a non-secret workflow value and syncs only `SENTRY_DSN` from the `tooldown.void.cold.at` GitHub environment into `/var/lib/apps/tooltown/.env`; use `deployment.environment=production`.
 
 ## Sentry
 
@@ -61,7 +64,7 @@ Set `SENTRY_DSN` in `.env` from the Sentry project setup and optionally set `SEN
 
 The service sends application errors, existing application logs, and a `tooltown.startup` count metric to Sentry. Sentry logs and metrics are enabled by default in `sentry-go` v0.48.0. Sentry performance tracing stays disabled because OpenTelemetry already instruments HTTP requests; enabling both would duplicate request transactions and trace propagation.
 
-Published images include `vcs.repository.url.full` and `vcs.ref.head.revision` from CI build metadata so Bluebox can map telemetry to its source revision. Direct `go run .` and local images omit those attributes unless build metadata is supplied.
+Published images include `vcs.repository.url.full` and `vcs.ref.head.revision` from CI build metadata so the collector's backends can map telemetry to its source revision. Direct `go run .` and local images omit those attributes unless build metadata is supplied.
 
 ## Build the image
 
@@ -90,7 +93,7 @@ After a successful `main` build, GitHub Actions deploys on the runner labeled `a
 
 Traefik discovers the service through Docker labels; the container publishes no host port. Configure the image, hostname, container port, restart policy, Traefik router/service settings, management label, and Watchtower opt-in in the deployment `.env`. All supported variables and defaults are documented in `.env.dist`. Use distinct `COMPOSE_PROJECT_NAME`, `TOOLTOWN_TRAEFIK_ROUTER`, `TOOLTOWN_TRAEFIK_SERVICE`, and `TOOLTOWN_HOST` values for separate deployments on the same host.
 
-The deployment runner requires Docker Compose and write access to `/var/lib/apps`. Subsequent deployments preserve its local `.env`. Each deployment updates `OTEL_EXPORTER_OTLP_ENDPOINT`, `OTEL_EXPORTER_OTLP_HEADERS`, and `SENTRY_DSN` from environment secrets of the same names.
+The deployment runner requires Docker Compose and write access to `/var/lib/apps`. Subsequent deployments preserve its local `.env`, except that each deployment rewrites `OTEL_EXPORTER_OTLP_ENDPOINT` to the collector URL and `SENTRY_DSN` from the environment secret, and drops any leftover `OTEL_EXPORTER_OTLP_HEADERS` line.
 
 ## Test
 

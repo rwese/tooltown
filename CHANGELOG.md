@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- Send all OpenTelemetry signals to the self-hosted collector at
+  `https://otelcol.void.cold.at` instead of the Bluebox Dynatrace tenant.
+  The collector fans traces to Tempo, metrics to Prometheus, and logs to Loki,
+  and the deployment no longer needs an OTLP authorization header or a
+  vendor endpoint secret. Removed `.env.otel.bluebox-template` and the
+  `OTEL_EXPORTER_OTLP_HEADERS` setting.
+
 ## [0.4.0] - 2026-09-10
 
 ### Added
